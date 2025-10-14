@@ -1,0 +1,90 @@
+/* nord_style.rasi */
+* {
+    /* Nord Color Palette */
+    nord0:    #000000; /* Black/Background */
+    nord1:    #1A1A1A;
+    nord2:    #2A2A2A;
+    nord3:    #4C566A; /* Foreground/Text */
+    nord4:    #D8DEE9;
+    nord5:    #E5E9F0;
+    nord6:    #ECEFF4;
+    nord7:    #8FBCBB;
+    nord8:    #88C0D0; /* Active/Highlight */
+    nord9:    #81A1C1;
+    nord10:   #5E81AC;
+    nord11:   #BF616A;
+    nord12:   #D08770;
+    nord13:   #EBCB8B;
+    nord14:   #A3BE8C;
+    nord15:   #B48EAD;
+
+    /* Theme Customization */
+    background-color: transparent;
+    border-color: @nord8;
+    
+    /* ウィンドウ全体のプロパティ */
+    font: "CaskaydiaCove Nerd Font 10";
+}
+
+window {
+    /* 1. ウィンドウの基本設定 */
+    width: 40%;
+    height: 45%;
+    padding: 0px;
+    border-radius: 10px; /* 角丸 */
+    background-color: @nord0;
+    
+    /* 2. 透明度を追加 (Picom/コンポジターが必須) */
+    /** RGBA形式のカラーコードで透明度を設定。例: 00FF00FF (透明度00) **/
+    background: #DD000000; /* DD: 約87%の不透明度 */
+}
+
+mainbox {
+    border:  0;
+    padding: 10px;
+}
+
+inputbar {
+    spacing: 0px;
+    padding: 10px 10px 10px 10px;
+    border-radius: 8px; /* 入力バーを角丸にする */
+    background-color: @nord1;
+    children: [ prompt, entry ];
+}
+
+prompt {
+    enabled: true;
+    padding: 0px 10px 0px 0px;
+    border: 0;
+    text-color: @nord8;
+}
+
+entry {
+    padding: 0px;
+    text-color: @nord6;
+}
+
+listview {
+    padding: 10px 0px 0px 0px;
+    spacing: 5px;
+    dynamic: false;
+    scrollbar: false;
+}
+
+element {
+    padding: 8px;
+    border-radius: 5px;
+    background-color: @nord0;
+    text-color: @nord4;
+}
+
+element-text {
+    background-color: inherit;
+    text-color:       inherit;
+    vertical-align: 0.5;
+}
+
+element selected {
+    background-color: @nord8;
+    text-color: @nord0;
+}

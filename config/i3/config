@@ -1,0 +1,246 @@
+# i3設定ファイル (v4) - リファクタリング版
+# 最終更新: 2025年9月
+gaps inner 6
+gaps outer 1
+# 💻 基本設定 -------------------------------------------------------------------
+# 🎮 Steamゲームのウィンドウをフローティングさせるルール
+# [class="Steam"] はSteamクライアント本体
+for_window [class="steam"] floating enable
+for_window [class="steam_app_.*"] floating enable
+# $modキーを設定: Mod4は通常、Windows/Superキーに対応します。
+set $mod Mod4
+# Slackウィンドウをフローティングさせる
+for_window [class="Slack"] floating enable
+# Discordウィンドウをフローティングさせる
+for_window [class="discord"] floating enable
+
+# ウィンドウタイトルのフォント設定
+font pango:monospace 8
+
+# 🚀 アプリケーション起動（i3起動時）-----------------------------------------------
+exec_always --no-startup-id clipit
+exec_always --no-startup-id fcitx5
+# i3起動時、およびi3設定リロード時にPicomを起動
+exec_always --no-startup-id picom
+
+# 壁紙の設定 (i3起動時とリロード時に実行)
+exec_always --no-startup-id feh --bg-fill ~/Pictures/Wallpapers/wallhaven-og5lj5.jpg
+
+# XDG Autostart (.desktopファイル) の実行
+exec --no-startup-id dex --autostart --environment i3
+
+# i3起動時にBluemanアプレットと電源マネージャーを起動
+exec --no-startup-id blueman-applet
+exec --no-startup-id xfce4-power-manager
+
+# Polybarの起動
+exec_always --no-startup-id $HOME/.config/polybar/launch.sh
+
+# メールクライアント (Thunderbird) の起動: $mod+m
+bindsym $mod+m exec thunderbird
+
+# ターミナルの起動: $mod+Enter
+bindsym $mod+Return exec alacritty
+
+# Firefoxの起動: $mod+w
+bindsym $mod+w exec firefox
+
+# Dolphinの起動: $mod+e
+bindsym $mod+e exec dolphin
+
+# プログラムランチャー (Rofiを使用): $mod+d
+bindsym $mod+d exec --no-startup-id "rofi -show combi"
+
+
+# 🌐 ネットワークと音声 ---------------------------------------------------------
+
+# NetworkManagerアプレットの起動（Wi-Fi管理など）
+exec --no-startup-id nm-applet
+
+# ★★★ PulseAudio / PipeWire の起動 ★★★
+# PipeWireとWireplumberはsystemdユーザーサービスとして自動起動します
+# 手動起動は不要です（競合を避けるためコメントアウト）
+# exec --no-startup-id pipewire
+# exec --no-startup-id pipewire-pulse
+# exec --no-startup-id wireplumber
+
+# PulseAudioの音量操作（pactlを使用）- Polybar使用時はi3status更新は不要
+bindsym XF86AudioRaiseVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ +10%
+bindsym XF86AudioLowerVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ -10%
+bindsym XF86AudioMute exec --no-startup-id pactl set-sink-mute @DEFAULT_SINK@ toggle
+bindsym XF86AudioMicMute exec --no-startup-id pactl set-source-mute @DEFAULT_SOURCE@ toggle
+
+
+# 🖱️ タッチパッド設定 (ID: 18) --------------------------------------------------
+
+# タップクリックとナチュラルスクロールを1行にまとめて有効化
+exec --no-startup-id xinput set-prop 18 "libinput Tapping Enabled" 1 "libinput Natural Scrolling Enabled" 1
+
+# libinput-gesturesの自動起動
+exec --no-startup-id libinput-gestures-setup start
+
+
+# 🔐 セッション管理 -------------------------------------------------------------
+
+# light-lockerの自動起動
+exec --no-startup-id light-locker
+# スクリーンロックとサスペンド設定 (xss-lockとi3lockを使用)
+exec --no-startup-id xss-lock --transfer-sleep-lock -- i3lock --nofork
+
+# 手動でロック: $mod+Shift+x でライトロッカーを起動
+bindsym $mod+Shift+x exec --no-startup-id light-locker-command -l
+
+
+# 📸 スクリーンショット -----------------------------------------------------------
+
+# 範囲選択スクリーンショット: $mod+Shift+s
+bindsym $mod+Shift+s exec flameshot gui
+
+# 全画面スクリーンショットをファイル保存: PrintキーでFlameshot起動
+bindsym Print exec flameshot gui
+
+# Shift + PrintScreen で画面全体をキャプチャし、ファイルに保存
+bindsym Shift+Print exec flameshot full -p ~/Pictures/Screenshots
+
+# Ctrl + PrintScreen で画面全体をキャプチャし、クリップボードにコピー
+bindsym Control+Print exec flameshot full -c
+
+# アクティブウィンドウをクリップボードにコピー: $mod+Shift+Print
+bindsym $mod+Shift+Print exec --no-startup-id sh -c 'maim -i $(xdotool getactivewindow) | xclip -selection clipboard -t image/png'
+
+
+# 🖥️ ウィンドウ操作 -------------------------------------------------------------
+
+# ウィンドウを閉じる: $mod+q
+bindsym $mod+q kill
+
+# フォーカスの移動 (HJKLキーを使用)
+bindsym $mod+h focus left
+bindsym $mod+j focus down
+bindsym $mod+k focus up
+bindsym $mod+l focus right
+
+# ウィンドウの移動 (HJKLキーに論理的に割り当てを修正)
+# H: 左, J: 下, K: 上, L: 右
+bindsym $mod+Shift+h move container left
+bindsym $mod+Shift+j move container down
+bindsym $mod+Shift+k move container up
+bindsym $mod+Shift+l move container right
+
+# 分割方向の切り替え
+bindsym $mod+Shift+v split v # 垂直分割
+bindsym $mod+Shift+b split b # 水平分割 (Shift+Hを割り当てに変更)
+
+# フルスクリーン: $mod+f
+bindsym $mod+f fullscreen toggle
+
+# レイアウトの変更
+bindsym $mod+s layout stacking
+bindsym $mod+t layout tabbed # タブ形式レイアウトを新規割り当て
+
+# タイリング/フローティングの切り替え: $mod+Shift+space
+bindsym $mod+Shift+space floating toggle
+
+# タイリング/フローティングウィンドウ間のフォーカス切り替え: $mod+space
+bindsym $mod+space focus mode_toggle
+
+# 親コンテナにフォーカス: $mod+a
+bindsym $mod+a focus parent
+
+# 🔢 ワークスペース -------------------------------------------------------------
+
+# ワークスペース名の定義
+set $ws1 "1"
+set $ws2 "2"
+set $ws3 "3"
+set $ws4 "4"
+set $ws5 "5"
+set $ws6 "6"
+set $ws7 "7"
+set $ws8 "8"
+set $ws9 "9"
+set $ws10 "10"
+
+# ワークスペースに移動
+bindsym $mod+1 workspace number $ws1
+bindsym $mod+2 workspace number $ws2
+bindsym $mod+3 workspace number $ws3
+bindsym $mod+4 workspace number $ws4
+bindsym $mod+5 workspace number $ws5
+bindsym $mod+6 workspace number $ws6
+bindsym $mod+7 workspace number $ws7
+bindsym $mod+8 workspace number $ws8
+bindsym $mod+9 workspace number $ws9
+bindsym $mod+0 workspace number $ws10
+
+# ウィンドウをワークスペースに移動
+bindsym $mod+Shift+1 move container to workspace number $ws1
+bindsym $mod+Shift+2 move container to workspace number $ws2
+bindsym $mod+Shift+3 move container to workspace number $ws3
+bindsym $mod+Shift+4 move container to workspace number $ws4
+bindsym $mod+Shift+5 move container to workspace number $ws5
+bindsym $mod+Shift+6 move container to workspace number $ws6
+bindsym $mod+Shift+7 move container to workspace number $ws7
+bindsym $mod+Shift+8 move container to workspace number $ws8
+bindsym $mod+Shift+9 move container to workspace number $ws9
+bindsym $mod+Shift+0 move container to workspace number $ws10
+
+
+# 🔄 i3設定とセッション ---------------------------------------------------------
+
+# 設定ファイルの再読み込み: $mod+Shift+c
+bindsym $mod+Shift+c reload
+# i3の再起動（レイアウトを維持）: $mod+Shift+r
+bindsym $mod+Shift+r restart
+# i3の終了（Xセッションからログアウト）: $mod+Shift+e
+bindsym $mod+Shift+e exec "i3-nagbar -t warning -m 'You pressed the exit shortcut. Do you really want to exit i3? This will end your X session.' -B 'Yes, exit i3' 'i3-msg exit'"
+
+# 📏 リサイズモード -------------------------------------------------------------
+
+# リサイズモードに入る: $mod+r
+bindsym $mod+r mode "resize"
+
+mode "resize" {
+    # 標準的なHJKL割り当てに修正 (Vimの移動キーに準拠)
+    # H/J/K/Lの論理的な動作になるよう修正
+    bindsym j resize shrink height 10 px or 10 ppt # J: 下方向へ縮小 (上端を下げる)
+    bindsym k resize grow height 10 px or 10 ppt   # K: 上方向へ拡大 (上端を上げる)
+    bindsym h resize shrink width 10 px or 10 ppt  # H: 左方向へ縮小 (右端を左へ寄せる)
+    bindsym l resize grow width 10 px or 10 ppt    # L: 右方向へ拡大 (右端を右へ寄せる)
+
+    # カーソルキーでの代替
+    bindsym Left resize shrink width 10 px or 10 ppt
+    bindsym Down resize shrink height 10 px or 10 ppt
+    bindsym Up resize grow height 10 px or 10 ppt
+    bindsym Right resize grow width 10 px or 10 ppt
+
+    # 通常モードに戻る: Enter, Escape, または $mod+r
+    bindsym Return mode "default"
+    bindsym Escape mode "default"
+    bindsym $mod+r mode "default"
+}
+
+
+# 🖱️ マウス操作 ------------------------------------------------------------------
+
+# フローティングウィンドウの移動/リサイズに使うModifierキー
+floating_modifier $mod
+
+# タイリングウィンドウをタイトルバーのドラッグで移動できるようにする
+tiling_drag modifier titlebar
+
+# 📐 ウィンドウボーダー設定 ------------------------------------------------------
+# ★★★ ボーダー表示を有効化し、太さを5pxに設定 ★★★
+default_border pixel 5
+
+# ★★★ 以前の「border none」を強制する記述が残っていないか確認! ★★★
+# for_window [all] border none  <-- この行があれば削除
+
+# 🎨 ボーダーカラー設定 (太字で強調表示)
+client.focused          #5E81AC #5E81AC #ECEFF4 #5E81AC
+client.unfocused        #3C3C3C #4c4c4c #ffffff #2e3436
+client.focused_inactive #3C3C3C #4c4c4c #ffffff #2e3436
+client.urgent           #ff0000 #ff0000 #ffffff #ff0000
+
+# ★★★ ここに追記：すべてのウィンドウにボーダー表示を強制 ★★★
+for_window [all] border pixel 3

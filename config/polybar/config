@@ -1,0 +1,65 @@
+
+include-file = ~/.config/polybar/modules
+
+[colors]
+background = #000000
+background-focused = #1A1A1A
+foreground = #C0CAF5
+urgent = #C41010
+primary = #ff69b4
+pink = #ff69b4
+purple = #bb9af7
+blue = #7aa2f7
+red = #f7768e
+
+;-------
+
+[bar/mainBar]
+monitor =
+monitor-fallback =
+monitor-strict = false
+override-redirect = false
+bottom = false
+fixed-center = true
+width = 100%
+height = 35
+offset-x = 0%
+offset-y = 0%
+background = ${colors.background}
+foreground = ${colors.foreground}
+radius-top = 0.0
+radius-bottom = 0.0
+underline-size = 2
+underline-color = ${colors.foreground}
+padding = 1
+module-margin-left = 0
+module-margin-right = 0
+
+font-0 = "JetBrainsMono Nerd Font Mono:size=14:pixelsize=14;1"
+font-1 = "JetBrainsMono Nerd Font Mono:size=25;1"  
+font-2 = "JetBrainsMono Nerd Font Mono:size=14;1"
+[bar/top]
+inherit = bar/mainBar
+height = 45
+fixed-center = true
+background = ${colors.background}
+foreground = ${colors.foreground}
+module-margin-left = 0
+module-margin-right = 0
+
+modules-left = i3 
+modules-center = date  playerctl
+modules-right =  wired-network wireless-network  volume  custom-battery  sysmenu
+
+[bar/bottom]
+inherit = bar/mainBar
+bottom = true
+fixed-center = true
+background = ${colors.background}
+foreground = ${colors.foreground}
+module-margin-left = 0
+module-margin-right = 0
+modules-left = memory cpu
+modules-center = title
+modules-right = xkeyboard speed
+tray-position = right

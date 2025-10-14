@@ -1,0 +1,275 @@
+[module/i3]
+type = internal/i3
+label-mode = %mode%
+label-mode-padding = 4
+label-mode-background = ${colors.pink}
+label-mode-foreground = #000000
+
+;Focused
+label-focused =  %name% 
+label-focused-foreground = #000000
+label-focused-background = ${colors.purple}
+label-focused-padding = 3
+label-focused-underline = #ffffff
+
+;Unfocused
+label-unfocused =  %name% 
+label-unfocused-padding = 3
+label-unfocused-underline = #ffffff
+label-unfocused-foreground = ${colors.foreground}
+
+;Visible
+label-visible =  %name% 
+label-visible-foreground = ${colors.blue}
+label-visible-padding = 3
+label-visible-underline = #ffffff
+
+;Urgent
+label-urgent =  %name% 
+label-urgent-foreground = #000000
+label-urgent-background = ${colors.red}
+label-urgent-padding = 3
+label-urgent-underline = #ffffff
+
+;Separator
+label-separator = 
+label-separator-padding = 0
+label-separator-foreground = ${colors.background}
+
+
+## 📡 Bluetoothマネージャー ##
+[module/bluetooth]
+type = custom/script
+exec = ~/.config/polybar/scripts/bluetooth.sh 
+interval = 5
+format-prefix = " "                    
+format-prefix-font = 1
+format = <label>
+label = %output%
+click-left = blueman-manager &     
+
+
+
+[module/wireless-network]
+type = internal/network
+interface = wlan0
+interval = 3.0
+format-connected-prefix = " "
+format-connected-prefix-foreground = #7aa2f7
+format-connected-background = ${colors.background}
+format-connected-foreground = #7aa2f7
+format-connected = "<ramp-signal> <label-connected>"
+format-connected-underline = #ffffff
+label-connected =
+
+
+
+format-disconnected = "no wifi :("
+format-disconnected-background = ${colors.background}
+label-disconnected-foreground = ${colors.foreground}
+
+ramp-signal-0 = "    0%"
+ramp-signal-1 = "    25%"
+ramp-signal-2 = "    50%"
+ramp-signal-3 = "    75%"
+ramp-signal-4 = "    100%"
+ramp-signal-foreground = #7aa2f7
+
+[module/speed]
+type = internal/network
+interface = wlan0
+interval = 5.0
+accumulate-stats = true
+unknown-as-up = true
+format-connected = <label-connected>
+format-connected-font = 1
+format-connected-prefix = 直
+format-disconnected = <label-disconnected>
+format-disconnected-prefix = 睊
+label-connected = "%{A1:networkmanager_dmenu &:} %essid%  %downspeed%  %upspeed%%{A}"
+label-disconnected = "%{A1:networkmanager_dmenu &:} Disconnected%{A}"
+format-connected-underline = #ffffff
+
+
+[module/wired-network]
+type = internal/network
+interface = enp0s31f6
+interval = 5.0
+
+format-connected-underline = ${colors.primary}
+format-connected-prefix = ""
+format-connected-prefix-foreground = ${colors.foreground}
+label-connected = %local_ip%
+
+format-disconnected =
+;format-disconnected = <label-disconnected>
+;format-disconnected-underline = ${self.format-connected-underline}
+;label-disconnected = %ifname% disconnected
+;label-disconnected-foreground = ${colors.foreground}
+
+
+[module/date]
+type = internal/date
+interval = 5
+date = " 󰃭 %a %b %d"
+date-alt = " 󰸗 %Y-%m-%d"
+time = " %I:%M %p "
+time-alt = %H:%M:%S
+format-prefix-foreground = #bb9af7
+format-underline = ${colors.primary}
+label = "%{F#7dcfff}%date%%{F-} %{F#bb9af7}%time%%{F-}"
+
+## 🎶 メディアプレイヤーコントロール (カスタム版) 🎶
+[module/playerctl]
+type = custom/script
+tail = true
+interval = 1
+format = <label>
+format-background = ${colors.background}
+format-foreground = ${colors.foreground}
+format-underline = ${colors.primary}
+
+; 実行されるスクリプト (再生状態と曲名を出力する)
+exec = ~/.config/polybar/scripts/playerctl_status.sh
+exec-if = playerctl metadata --format '{{ status }}' | grep -q "Playing\\|Paused"
+
+label = %output%
+label-font = 1
+
+; 再生操作の定義 (すべてのプレイヤーに対応)
+click-left = playerctl play-pause 
+click-middle = playerctl stop
+click-right = playerctl next
+scroll-up = playerctl previous
+scroll-down = playerctl next
+
+## 🎶 CAVA & メディアコントロール 🎶
+[module/media-cava]
+type = custom/script
+tail = true
+interval = 0             ; リアルタイム更新
+
+; メディア情報とCAVA出力を結合するスクリプトを実行
+exec = ~/.config/polybar/scripts/media_cava.sh
+
+label = %output%
+label-font = 1           ; アイコンとバー描画にNerd Fontを使用
+click-left = playerctl play-pause 
+click-right = playerctl next
+
+
+[module/volume]
+type = internal/pulseaudio
+sink = @DEFAULT_SINK@
+format-muted-background = ${colors.background}
+format-volume-background = ${colors.background}
+format-volume = "  <ramp-volume>  <label-volume>  "
+label-volume-foreground = #e0af68
+format-volume-underline = #ffffff
+format-volume-prefix = " "
+format-volume-prefix-foreground = #e0af68
+format-volume-foreground = #e0af68
+click-right = sh -c "/usr/bin/pavucontrol &"
+label-muted = "  婢 muted  "
+label-muted-foreground = #e0af68
+format-muted-underline = #ffffff
+
+; Only applies if <ramp-volume> is used
+ramp-volume-0 = 
+ramp-volume-1 = 
+ramp-volume-2 = 
+ramp-volume-foreground = #e0af68
+
+
+
+[module/custom-battery]
+type = custom/script
+exec = ~/.config/polybar/scripts/battery.sh
+interval = 10
+format = "  <label>  "
+format-foreground = #9ece6a
+format-underline = #ffffff
+label = %output%
+click-left = sh -c "/usr/bin/xfce4-power-manager-settings &"
+click-right = sh -c "/usr/bin/xfce4-power-manager-settings &
+label-font = 1
+
+[module/powermenu]
+type = custom/menu
+
+format-spacing = 1
+
+label-open = "               "
+label-open-background = ${colors.background}
+label-open-foreground = ${colors.foreground}
+label-close = "       cancel   "
+label-close-background = ${colors.background}
+label-close-foreground = ${colors.foreground}
+label-separator = " "
+label-separator-foreground = ${colors.foreground}
+
+menu-0-0 = reboot
+menu-0-0-exec = menu-open-1
+menu-0-1 = "power off   "
+menu-0-1-exec = menu-open-2
+menu-1-0 = cancel
+menu-1-0-exec = menu-open-0
+menu-1-1 = reboot
+menu-1-1-exec = "systemctl reboot"
+menu-2-0 = power off
+menu-2-0-exec = shutdown now
+menu-2-1 = cancel
+menu-2-1-exec = menu-open-0
+
+[settings]
+screenchange-reload = true
+
+[global/wm]
+margin-top = 5
+margin-bottom = 5
+
+[module/title]
+type = custom/script
+exec = ~/.config/polybar/scripts/window_icon.sh
+interval = 1
+format = <label>
+label = %output%
+label-maxlen = 50
+
+[module/cpu]
+type = internal/cpu
+interval = 1
+format = <label>
+format-prefix = 
+format-prefix-foreground = #7aa2f7
+format-prefix-font = 1
+label = " %percentage%%"
+format-underline = #ffffff
+
+[module/memory]
+type = internal/memory
+interval = 1
+format = <label>
+format-prefix = ﬙
+format-prefix-font = 1
+format-prefix-foreground = #bb9af7
+label = " %gb_used%"
+format-underline = #ffffff
+
+[module/sysmenu]
+type = custom/text
+content = 
+content-font = 1
+content-foreground = #f7768e
+content-underline = #ffffff
+content-padding = 1
+click-left = ~/.config/polybar/scripts/powermenu.sh &
+
+[module/xkeyboard]
+type = internal/xkeyboard
+label-layout =
+indicator-icon-default = 
+indicator-icon-0 = caps lock;-CL;+CL
+indicator-icon-1 = scroll lock;;+SL
+indicator-icon-2 = num lock;-NL;+NL
+blacklist-0 = scroll lock

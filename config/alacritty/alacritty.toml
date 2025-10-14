@@ -1,0 +1,103 @@
+[[colors.indexed_colors]]
+color = "0xff9e64"
+index = 16
+
+[[colors.indexed_colors]]
+color = "0xdb4b4b"
+index = 17
+
+[colors.bright]
+black = "0x414868"
+blue = "0x7aa2f7"
+cyan = "0x7dcfff"
+green = "0x9ece6a"
+magenta = "0xbb9af7"
+red = "0xf7768e"
+white = "0xc0caf5"
+yellow = "0xe0af68"
+
+[colors.normal]
+black = "0x15161E"
+blue = "0x7aa2f7"
+cyan = "0x7dcfff"
+green = "0x9ece6a"
+magenta = "0xbb9af7"
+red = "0xf7768e"
+white = "0xa9b1d6"
+yellow = "0xe0af68"
+
+[colors.primary]
+background = "0x000000"
+foreground = "0xc0caf5"
+
+# ~/.config/alacritty/alacritty.toml
+
+[font]
+builtin_box_drawing = true
+size = 9.0
+
+[font.bold]
+# 💡 正しいフォント名を設定
+family = "Iosevka Nerd Font Mono" 
+style = "Bold"
+
+[font.bold_italic]
+family = "Iosevka Nerd Font Mono"
+style = "Bold Italic"
+
+[font.italic]
+family = "Iosevka Nerd Font Mono"
+style = "Italic"
+
+[font.normal]
+family = "Iosevka Nerd Font Mono"
+style = "Regular"
+
+[window]
+opacity = 0.9 # 90% 不透明（10%透過）
+
+[terminal]
+
+[terminal.shell]
+program = "/bin/zsh"
+
+# Vim-style scrolling keybindings
+[[keyboard.bindings]]
+key = "j"
+mods = "Alt"
+action = "ScrollLineDown"
+
+[[keyboard.bindings]]
+key = "k"
+mods = "Alt"
+action = "ScrollLineUp"
+
+[[keyboard.bindings]]
+key = "d"
+mods = "Alt"
+action = "ScrollHalfPageDown"
+
+[[keyboard.bindings]]
+key = "u"
+mods = "Alt"
+action = "ScrollHalfPageUp"
+
+[[keyboard.bindings]]
+key = "f"
+mods = "Alt"
+action = "ScrollPageDown"
+
+[[keyboard.bindings]]
+key = "b"
+mods = "Alt"
+action = "ScrollPageUp"
+
+[[keyboard.bindings]]
+key = "g"
+mods = "Alt"
+action = "ScrollToTop"
+
+[[keyboard.bindings]]
+key = "G"
+mods = "Alt|Shift"
+action = "ScrollToBottom"
