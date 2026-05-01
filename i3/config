@@ -24,7 +24,7 @@ exec_always --no-startup-id fcitx5
 exec_always --no-startup-id picom
 
 # 壁紙の設定 (i3起動時とリロード時に実行)
-exec_always --no-startup-id feh --bg-fill ~/Pictures/Wallpapers/wallhaven-rqqy5m.png
+exec_always --no-startup-id feh --bg-fill ~/Pictures/Wallpapers/pixel-galaxy-mocha.png
 
 # XDG Autostart (.desktopファイル) の実行
 exec --no-startup-id dex --autostart --environment i3
@@ -44,7 +44,7 @@ bindsym $mod+m exec thunderbird
 bindsym $mod+Return exec alacritty
 
 # Firefoxの起動: $mod+w
-bindsym $mod+w exec vivaldi-stable
+bindsym $mod+w exec brave
 
 # Dolphinの起動: $mod+e
 bindsym $mod+e exec dolphin
@@ -153,7 +153,9 @@ bindsym $mod+space focus mode_toggle
 bindsym $mod+a focus parent
 
 # 🔢 ワークスペース -------------------------------------------------------------
-
+# Discordをタイリングモードにする
+for_window [class="(?i)discord"] floating disable
+for_window [class="(?i)slack"] floating disable
 # ワークスペース名の定義
 set $ws1 "1"
 set $ws2 "2"
@@ -235,11 +237,8 @@ floating_modifier $mod
 tiling_drag modifier titlebar
 
 # 📐 ウィンドウボーダー設定 ------------------------------------------------------
-# ★★★ ボーダー表示を有効化し、太さを5pxに設定 ★★★
-default_border pixel 5
-
-# ★★★ 以前の「border none」を強制する記述が残っていないか確認! ★★★
-# for_window [all] border none  <-- この行があれば削除
+# ウィンドウの枠線を非表示にする
+for_window [class="^.*"] border none
 
 # 🎨 ボーダーカラー設定 (太字で強調表示)
 client.focused          #5E81AC #5E81AC #ECEFF4 #5E81AC
@@ -247,5 +246,3 @@ client.unfocused        #3C3C3C #4c4c4c #ffffff #2e3436
 client.focused_inactive #3C3C3C #4c4c4c #ffffff #2e3436
 client.urgent           #ff0000 #ff0000 #ffffff #ff0000
 
-# ★★★ ここに追記：すべてのウィンドウにボーダー表示を強制 ★★★
-for_window [all] border pixel 3
