@@ -1,5 +1,4 @@
-# AGS generated files
-ags/colors.css
+# AGS generated files (synapse-version is runtime state)
 ags/.synapse-version
 
 # Alacritty backup files
