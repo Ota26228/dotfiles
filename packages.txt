@@ -1,0 +1,106 @@
+# Hyprland core
+hyprland
+hyprlang
+hyprutils
+hyprgraphics
+hypridle
+hyprlock
+hyprpaper
+xdg-desktop-portal-hyprland
+xdg-desktop-portal-gtk
+xwayland-satellite
+
+# AGS (Aylur's GTK Shell)
+aylurs-gtk-shell-git
+libastal-battery-git
+libastal-hyprland-git
+libastal-meta
+dart-sass
+binaryen
+
+# Terminal / Shell
+alacritty
+zsh
+starship
+zoxide
+fzf
+fd
+bat
+yazi
+
+# Editor
+neovim
+python-pynvim
+
+# Wayland utilities
+wl-clipboard
+cliphist
+grim
+slurp
+brightnessctl
+playerctl
+libnotify
+mako
+jq
+fuzzel
+
+# Audio
+pipewire
+pipewire-alsa
+pipewire-jack
+pipewire-pulse
+wireplumber
+pavucontrol
+helvum
+
+# Bluetooth
+bluez
+bluez-utils
+blueman
+
+# Network
+networkmanager
+network-manager-applet
+
+# Theme / Wallpaper
+matugen
+awww
+
+# Japanese input
+fcitx5
+fcitx5-mozc
+fcitx5-gtk
+fcitx5-configtool
+
+# Fonts
+noto-fonts
+noto-fonts-cjk
+noto-fonts-emoji
+noto-fonts-extra
+ttf-jetbrains-mono-nerd
+ttf-firacode-nerd
+ttf-hack-nerd
+ttf-iosevka-nerd
+ttf-nerd-fonts-symbols-mono
+
+# File manager
+thunar
+ffmpegthumbnailer
+tumbler
+
+# System tools
+base-devel
+git
+wget
+openssh
+btop
+fastfetch
+bat
+
+# Apps
+brave-bin
+obs-studio
+mpv
+discord
+spotify
+obsidian

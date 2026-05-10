@@ -1,0 +1,9 @@
+# AGS generated files
+ags/colors.css
+ags/.synapse-version
+
+# Alacritty backup files
+alacritty/*.bak
+
+# nvim lazy lockfile (optional: remove if you want to pin versions)
+nvim/lazy-lock.json
