@@ -34,7 +34,7 @@ foreground = "0xc0caf5"
 
 [font]
 builtin_box_drawing = true
-size = 7.5
+size = 12
 
 [font.bold]
 # 💡 正しいフォント名を設定
@@ -101,3 +101,8 @@ action = "ScrollToTop"
 key = "G"
 mods = "Alt|Shift"
 action = "ScrollToBottom"
+
+[[keyboard.bindings]]
+key = "Return"
+mods = "Shift"
+chars = "\u001B\r"

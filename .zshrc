@@ -36,9 +36,10 @@ alias copy='xclip -selection clipboard'
 alias paste='xclip -selection clipboard -o'
 
 # Quick Config Access
-alias zshconfig="nvim ~/.zshrc"
-alias vconfig="nvim ~/.config/nvim/init.lua"
+alias zshconfig='nvim ~/.zshrc'
+alias vconfig='nvim ~/.config/nvim/init.lua'
 
+alias music='music_tui'
 # ---------------------------------------------------------
 # Tool Settings (NVM / Other)
 # ---------------------------------------------------------
@@ -52,3 +53,4 @@ export NVM_DIR="$HOME/.nvm"
 # ---------------------------------------------------------
 # もし予測変換の色が薄すぎて見えない場合は、以下を有効にしてください
 # ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=242'
+. $HOME/export-esp.sh

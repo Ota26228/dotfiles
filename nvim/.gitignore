@@ -1,0 +1,19 @@
+# プラグインロックファイル（他の端末で自動生成されるため）
+lazy-lock.json
+
+# ログファイル
+*.log
+
+# macOS
+.DS_Store
+
+# Neovimのデータディレクトリ（プラグインキャッシュなど）
+data/
+plugin/
+spell/
+
+# その他の一時ファイル
+*.swp
+*.swo
+*~
+.netrwhist
