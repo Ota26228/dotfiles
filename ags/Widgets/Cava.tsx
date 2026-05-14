@@ -46,8 +46,20 @@ export default function Cava() {
           cava.bars = BARS;
           cava.channels = 1;
           cava.framerate = FPS;
-          (cava as any).source = getRunningMonitorSource();
+          let currentSource = getRunningMonitorSource();
+          (cava as any).source = currentSource;
           cava.active = true;
+
+          const pollTimerId = GLib.timeout_add(GLib.PRIORITY_DEFAULT, 2000, () => {
+            const newSource = getRunningMonitorSource();
+            if (newSource !== currentSource) {
+              currentSource = newSource;
+              cava.active = false;
+              (cava as any).source = newSource;
+              cava.active = true;
+            }
+            return GLib.SOURCE_CONTINUE;
+          });
 
           const update = () => {
             try {
@@ -78,6 +90,7 @@ export default function Cava() {
           self.connect("destroy", () => {
             cava.disconnect(sigId);
             GLib.source_remove(timerId);
+            GLib.source_remove(pollTimerId);
           });
         } catch (_) {
           label.set_label(IDLE_TEXT);
