@@ -16,6 +16,7 @@ opt.mouse = "a"
 opt.showmode = false
 
 vim.g.mapleader = " "
+
 vim.diagnostic.config({
     virtual_text = {
         spacing = 4,

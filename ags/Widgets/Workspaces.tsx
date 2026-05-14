@@ -1,55 +1,50 @@
-import Hyprland from "gi://AstalHyprland";
-import Gtk from "gi://Gtk?version=4.0";
-import { workspaceCount } from "./Settings";
+ import Hyprland from "gi://AstalHyprland";
+  import Gtk from "gi://Gtk?version=4.0";
 
-export default function Workspaces() {
-  const hypr = Hyprland.get_default();
+  export default function Workspaces() {
+    const hypr = Hyprland.get_default();
 
-  return (
-    <box
-      cssClasses={["workspaces-container"]}
-      halign={Gtk.Align.CENTER}
-      valign={Gtk.Align.CENTER}
-      heightRequest={24}
-      $={(self) => {
-        const syncDots = (count: number) => {
-          if (count === undefined) return;
-
-          // Remove old children
-          let child = self.get_first_child();
-          while (child) {
-            const next = child.get_next_sibling();
-            self.remove(child);
-            child = next;
-          }
-
-          for (let i = 1; i <= count; i++) {
+    return (
+      <box
+        cssClasses={["workspaces"]}
+        valign={Gtk.Align.CENTER}
+        spacing={6}
+        $={(self) => {
+          for (let i = 1; i <= 5; i++) {
             const dot = new Gtk.Box({
-              css_classes: ["dot"],
               valign: Gtk.Align.CENTER,
+              halign: Gtk.Align.CENTER,
+              width_request: 8,
+              height_request: 8,
             });
+            dot.add_css_class("ws-dot");
 
-            const updateActive = () => {
-              const focusedWs = hypr.get_focused_workspace();
-              if (focusedWs?.id === i) dot.add_css_class("active");
-              else dot.remove_css_class("active");
+            const update = () => {
+              const focused = hypr.get_focused_workspace();
+              const exists = hypr.get_workspaces().some((ws) => ws.id === i);
+
+              if (focused?.id === i) {
+                dot.remove_css_class("ws-used");
+                dot.add_css_class("ws-active");
+              } else if (exists) {
+                dot.remove_css_class("ws-active");
+                dot.add_css_class("ws-used");
+              } else {
+                dot.remove_css_class("ws-active");
+                dot.remove_css_class("ws-used");
+              }
             };
 
-            const signalId = hypr.connect(
-              "notify::focused-workspace",
-              updateActive,
-            );
-            dot.connect("destroy", () => hypr.disconnect(signalId));
-            updateActive();
+            const id1 = hypr.connect("notify::focused-workspace", update);
+            const id2 = hypr.connect("notify::workspaces", update);
+            dot.connect("destroy", () => {
+              hypr.disconnect(id1);
+              hypr.disconnect(id2);
+            });
+            update();
             self.append(dot);
           }
-        };
-
-        // subscribe calls syncDots immediately with the current value, so
-        // a separate initial call is not needed.
-        const unsub = workspaceCount.subscribe(syncDots);
-        self.connect("destroy", unsub);
-      }}
-    />
-  );
-}
+        }}
+      />
+    );
+  }

@@ -1,23 +1,28 @@
-import Gdk from "gi://Gdk?version=4.0";
-import Gtk from "gi://Gtk?version=4.0";
 import GLib from "gi://GLib";
+import app from "ags/gtk4/app";
+import Gdk from "gi://Gdk?version=4.0";
 import { createPoll } from "ags/time";
 
-export default function Clock({
-  format = "%I:%M %p %m/%d",
-}: {
-  format?: string;
-  gdkmonitor: Gdk.Monitor;
-}) {
-  const time = createPoll("", 1000, () => {
-    return GLib.DateTime.new_now_local().format(format) || "00:00";
-  });
+export default function Clock({ gdkmonitor }: { gdkmonitor: Gdk.Monitor }) {
+  const date = createPoll("", 1000, () =>
+    GLib.DateTime.new_now_local().format("%Y-%m-%d") ?? "",
+  );
+  const time = createPoll("", 1000, () =>
+    GLib.DateTime.new_now_local().format("%H:%M:%S") ?? "",
+  );
 
   return (
-    <box cssClasses={["clock"]} heightRequest={24} valign={Gtk.Align.CENTER}>
-      <box spacing={8} valign={Gtk.Align.CENTER}>
-        <label cssClasses={["clock-label"]} label={time} />
+    <button
+      cssClasses={["clock"]}
+      onClicked={() => {
+        const win = app.get_window(`calendar-popup-${gdkmonitor.connector}`);
+        if (win) win.visible = !win.visible;
+      }}
+    >
+      <box spacing={6}>
+        <label label={date} cssClasses={["clock-date"]} />
+        <label label={time} cssClasses={["clock-time"]} />
       </box>
-    </box>
+    </button>
   );
 }

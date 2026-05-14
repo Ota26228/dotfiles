@@ -54,7 +54,7 @@ family = "Iosevka Nerd Font Mono"
 style = "Regular"
 
 [window]
-opacity = 0.9 # 90% 不透明（10%透過）
+opacity = 0.65 # 90% 不透明（10%透過）
 
 [terminal]
 

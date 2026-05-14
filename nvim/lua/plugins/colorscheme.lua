@@ -1,9 +1,10 @@
 return {
-  "ellisonleao/gruvbox.nvim",
+  "pgdouyon/vim-yin-yang",
   lazy = false,
   priority = 1000,
   config = function()
-    require("gruvbox").setup()
-    vim.cmd([[colorscheme gruvbox]])
+    vim.cmd([[colorscheme yin]])
+    vim.api.nvim_set_hl(0, "Normal", { bg = "none" })
+    vim.api.nvim_set_hl(0, "NormalFloat", { bg = "none" })
   end,
 }

@@ -91,8 +91,8 @@
 ; method = pulse
 ; source = auto
 
-; method = pipewire
-; source = auto
+method = pipewire
+source = alsa_output.usb-Yamaha_Corporation_Steinberg_UR22C-00.HiFi__Line1__sink.monitor
 
 ; method = alsa
 ; source = hw:Loopback,1
