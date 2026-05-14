@@ -56,10 +56,20 @@ function getActiveSink(): string {
   try {
     const [, out] = GLib.spawn_command_line_sync("pactl list sinks short");
     const text = new TextDecoder().decode(out);
-    for (const line of text.split("\n")) {
-      if (line.includes("RUNNING")) {
-        return line.trim().split(/\s+/)[1] || "@DEFAULT_SINK@";
-      }
+    const lines = text.split("\n").filter((l) => l.trim());
+
+    // 1. RUNNING（再生中）
+    for (const line of lines) {
+      if (line.includes("RUNNING")) return line.trim().split(/\s+/)[1] || "";
+    }
+    // 2. IDLE（直近まで使っていた）
+    for (const line of lines) {
+      if (line.includes("IDLE")) return line.trim().split(/\s+/)[1] || "";
+    }
+    // 3. USB外部オーディオ（起動直後でSUSPENDED状態でも検出）
+    for (const line of lines) {
+      const name = line.trim().split(/\s+/)[1] || "";
+      if (name.includes("usb")) return name;
     }
   } catch (_) {}
   return "@DEFAULT_SINK@";
@@ -119,15 +129,16 @@ function VolumeSection(): Gtk.Box {
   const box = new Gtk.Box({ orientation: Gtk.Orientation.VERTICAL, spacing: 6 });
   box.add_css_class("sidebar-section");
 
-  const sink = getActiveSink();
-  const initVol = getSinkVolume(sink);
-  let isMuted = getSinkMuted(sink);
+  const initSink = getActiveSink();
+  const initVol = getSinkVolume(initSink);
+  let isMuted = getSinkMuted(initSink);
 
   const muteIcon = new Gtk.Image({ pixel_size: 16 });
   muteIcon.set_from_icon_name(isMuted ? "audio-volume-muted-symbolic" : "audio-volume-high-symbolic");
   const muteBtn = new Gtk.Button({ css_classes: ["sidebar-mute-btn"] });
   muteBtn.set_child(muteIcon);
   muteBtn.connect("clicked", () => {
+    const sink = getActiveSink();
     GLib.spawn_command_line_async(`/usr/bin/pactl set-sink-mute ${sink} toggle`);
     isMuted = !isMuted;
     muteIcon.set_from_icon_name(isMuted ? "audio-volume-muted-symbolic" : "audio-volume-high-symbolic");
@@ -137,10 +148,12 @@ function VolumeSection(): Gtk.Box {
   titleLbl.add_css_class("sidebar-section-title");
 
   const [scale, valueLabel] = buildSimpleSlider(initVol, 1.5, (v) => {
+    const sink = getActiveSink();
     GLib.spawn_command_line_async(`/usr/bin/pactl set-sink-volume ${sink} ${Math.round(v * 100)}%`);
   });
 
   const pollId = GLib.timeout_add(GLib.PRIORITY_DEFAULT, 2000, () => {
+    const sink = getActiveSink();
     const v = getSinkVolume(sink);
     isMuted = getSinkMuted(sink);
     valueLabel.set_label(`${Math.round(v * 100)}%`);
