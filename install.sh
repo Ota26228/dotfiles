@@ -38,6 +38,7 @@ AUR_PKGS=(
     impala
     wiremix
     bluetuith
+    mpd-mpris
 )
 
 echo "[aur] installing packages..."
@@ -87,6 +88,7 @@ fi
 echo "[services]"
 sudo systemctl enable --now bluetooth
 systemctl --user enable --now mpd
+systemctl --user enable --now mpd-mpris
 
 echo ""
 echo "done. sway を起動してください。"

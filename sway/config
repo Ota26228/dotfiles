@@ -73,7 +73,7 @@ bar {
     font pango:Iosevka Nerd Font Mono 11
     colors {
         background #11131a
- ja       statusline #e1e2eb
+        statusline #e1e2eb
         separator  #363940
         focused_workspace  #adc6ff #adc6ff #11131a
         active_workspace   #363940 #363940 #e1e2eb
