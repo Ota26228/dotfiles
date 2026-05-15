@@ -1,0 +1,143 @@
+[theme]
+theme = "plain"
+[theme.overrides]
+idle_bg     = "#11131a"
+idle_fg     = "#e1e2eb"
+info_bg     = "#11131a"
+info_fg     = "#adc6ff"
+good_bg     = "#11131a"
+good_fg     = "#e1e2eb"
+warning_bg  = "#11131a"
+warning_fg  = "#ffb780"
+critical_bg = "#ffb4ab"
+critical_fg = "#11131a"
+separator_bg = "#11131a"
+separator_fg = "#363940"
+separator    = " | "
+
+[icons]
+icons = "none"
+
+[[block]]
+block = "focused_window"
+format = " $title.str(max_w:5)?|{}"
+
+ [[block]]
+block = "custom"
+command = "printf '--------------------------------------------------->       $ =  ^^'"
+interval = 3600
+format = "$text.str(min_w:50)"
+
+[[block]]
+block = "net"
+device = "wlan0"
+format = " $ssid $speed_down.eng(prefix:K) $speed_up.eng(prefix:K)"
+[[block.click]]
+button = "left"
+cmd = "foot --app-id=impala-float -e impala"
+[[block.click]]
+button = "right"
+cmd = "foot --app-id=btop-small -e btop -p 5"
+
+
+
+[[block]]
+block = "cpu"
+format = " CPU $utilization"
+interval = 5
+[[block.click]]
+button = "left"
+cmd = "foot --app-id=btop-small -e btop -p 1"
+
+
+[[block]]
+block = "temperature"
+format = " $max"
+chip = "acpitz-*"
+interval = 5
+[[block.click]]
+button = "left"
+cmd = "foot --app-id=btop-small -e btop -p 1"
+
+
+[[block]]
+block = "memory"
+format = " MEM $mem_used_percents"
+interval = 5
+[[block.click]]
+button = "left"
+cmd = "foot --app-id=btop-small -e btop -p 4"
+
+
+[[block]]
+block = "disk_space"
+path = "/"
+format = " DISK $available"
+[[block.click]]
+button = "left"
+cmd = "foot --app-id=btop-small -e btop -p 4"
+
+
+[[block]]
+block = "battery"
+device = "BAT1"
+format = " $percentage $time"
+
+[[block]]
+block = "music"
+format = " $title.str(max_w:10){ - $artist.str(max_w:10)}|{ MEDIA}"
+[[block.click]]
+button = "left"
+cmd = "foot --app-id=rmpc-float -e rmpc"
+
+[[block]]
+block = "custom"
+command = "wpctl get-volume @DEFAULT_AUDIO_SINK@ | awk '{if ($3==\"[MUTED]\") print \"VOL MUTED\"; else printf \"VOL %d%%\", $2*100}'"
+interval = 1
+format = " $text"
+[[block.click]]
+button = "left"
+cmd = "wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle"
+[[block.click]]
+button = "right"
+cmd = "foot --app-id=wiremix-float -e wiremix -v output"
+
+[[block]]
+block = "custom"
+command = "wpctl get-volume @DEFAULT_AUDIO_SOURCE@ | awk '{if ($3==\"[MUTED]\") print \"MIC MUTED\"; else printf \"MIC %d%%\", $2*100}'"
+interval = 1
+format = " $text"
+[[block.click]]
+button = "left"
+cmd = "wpctl set-mute @DEFAULT_AUDIO_SOURCE@ toggle"
+[[block.click]]
+button = "right"
+cmd = "foot --app-id=wiremix-float -e wiremix -v input"
+
+[[block]]
+block = "bluetooth"
+mac = "E4:C7:67:1F:CD:44"
+[[block.click]]
+button = "left"
+cmd = "foot --app-id=bluetuith-float -e bluetuith"
+
+[[block]]
+block = "backlight"
+format = " BRI $brightness"
+[[block.click]]
+button = "left"
+cmd = "brightnessctl s 5%+"
+[[block.click]]
+button = "right"
+cmd = "brightnessctl s 5%-"
+
+ [[block]]
+  block = "custom"
+  command = "curl -s 'wttr.in/Yokohama?format=%C+%t'"
+  interval = 1800
+  format = " $text"
+
+[[block]]
+block = "time"
+format = " $timestamp.datetime(f:'%Y %m/%d %H:%M')"
+interval = 1

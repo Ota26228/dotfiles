@@ -1,0 +1,195 @@
+set $mod Mod4
+set $term foot
+set $browser qutebrowser
+set $menu tofi-drun --drun-launch=true
+set $lock swaylock
+
+font pango:Iosevka Nerd Font Mono 11
+
+gaps inner 5
+gaps outer 10
+default_border pixel 2
+
+# ==============================================================================
+# 出力・壁紙
+# ==============================================================================
+
+output * bg ~/Wallpapers/bg2.jpg fill
+
+# ==============================================================================
+# 入力
+# ==============================================================================
+
+input type:keyboard {
+    xkb_options ctrl:nocaps
+    repeat_delay 250
+    repeat_rate 35
+}
+
+input type:touchpad {
+    natural_scroll enabled
+    tap enabled
+    drag enabled
+    scroll_method two_finger
+    accel_profile adaptive
+    pointer_accel 0.3
+    middle_emulation disabled
+}
+
+# ==============================================================================
+# 自動起動
+# ==============================================================================
+
+exec_always fcitx5 -d --replace
+exec_always mako
+exec_always autotiling
+exec /usr/lib/polkit-kde-authentication-agent-1
+exec /usr/lib/xdg-desktop-portal-gtk
+
+# ==============================================================================
+# 環境変数
+# ==============================================================================
+
+exec_always systemctl --user import-environment WAYLAND_DISPLAY XDG_CURRENT_DESKTOP
+exec dbus-update-activation-environment --systemd WAYLAND_DISPLAY XDG_CURRENT_DESKTOP=sway
+
+# ==============================================================================
+# カラー (Tokyo Night)
+# ==============================================================================
+
+# class                 border   bg       text     indicator child_border
+client.focused          #adc6ff  #adc6ff  #11131a  #adc6ff   #adc6ff
+client.unfocused        #363940  #363940  #e1e2eb  #363940   #363940
+client.focused_inactive #363940  #363940  #e1e2eb  #363940   #363940
+client.urgent           #ffb4ab  #ffb4ab  #11131a  #ffb4ab   #ffb4ab
+
+# ==============================================================================
+# バー
+# ==============================================================================
+
+bar {
+    status_command i3status-rs ~/dotfiles/i3status-rust/config.toml
+    position top
+    font pango:Iosevka Nerd Font Mono 11
+    colors {
+        background #11131a
+ ja       statusline #e1e2eb
+        separator  #363940
+        focused_workspace  #adc6ff #adc6ff #11131a
+        active_workspace   #363940 #363940 #e1e2eb
+        inactive_workspace #11131a #11131a #e1e2eb
+        urgent_workspace   #ffb4ab #ffb4ab #11131a
+    }
+}
+
+# ==============================================================================
+# アプリ起動
+# ==============================================================================
+
+bindsym $mod+Return       exec $term
+bindsym $mod+w            exec $browser
+bindsym $mod+e            exec $term -e yazi
+bindsym $mod+d            exec $menu
+bindsym $mod+x            exec $lock
+bindsym Control+Shift+Escape exec $term --class=btop -e btop
+
+# ==============================================================================
+# ウィンドウ操作
+# ==============================================================================
+
+bindsym $mod+q            kill
+bindsym $mod+f            fullscreen toggle
+bindsym $mod+Alt+space    floating toggle
+bindsym $mod+space        focus mode_toggle
+
+floating_modifier $mod normal
+
+# フォーカス
+bindsym $mod+h focus left
+bindsym $mod+j focus down
+bindsym $mod+k focus up
+bindsym $mod+l focus right
+
+# ウィンドウ移動
+bindsym $mod+Shift+h move left
+bindsym $mod+Shift+j move down
+bindsym $mod+Shift+k move up
+bindsym $mod+Shift+l move right
+
+# 分割
+bindsym $mod+Shift+v split vertical
+bindsym $mod+Shift+b split horizontal
+
+# ==============================================================================
+# ワークスペース
+# ==============================================================================
+
+bindsym $mod+1 workspace 1
+bindsym $mod+2 workspace 2
+bindsym $mod+3 workspace 3
+bindsym $mod+4 workspace 4
+bindsym $mod+5 workspace 5
+
+bindsym $mod+Shift+1 move container to workspace 1
+bindsym $mod+Shift+2 move container to workspace 2
+bindsym $mod+Shift+3 move container to workspace 3
+bindsym $mod+Shift+4 move container to workspace 4
+bindsym $mod+Shift+5 move container to workspace 5
+
+# ==============================================================================
+# リサイズ
+# ==============================================================================
+
+bindsym $mod+r mode "resize"
+
+mode "resize" {
+    bindsym h resize shrink width  10px
+    bindsym j resize grow   height 10px
+    bindsym k resize shrink height 10px
+    bindsym l resize grow   width  10px
+
+    bindsym Return mode "default"
+    bindsym Escape mode "default"
+    bindsym $mod+r mode "default"
+}
+
+# ==============================================================================
+# スクリーンショット
+# ==============================================================================
+
+bindsym $mod+Shift+s exec mkdir -p ~/Pictures/Screenshots && grim -g "$(slurp)" /tmp/screenshot.png && cp /tmp/screenshot.png ~/Pictures/Screenshots/$(date +%Y-%m-%d_%H-%M-%S).png && wl-copy < /tmp/screenshot.png && notify-send "Screenshot" "Saved and copied to clipboard"
+
+# ==============================================================================
+# メディアキー
+# ==============================================================================
+
+bindsym --locked XF86AudioRaiseVolume  exec wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%+ --limit=1.0
+bindsym --locked XF86AudioLowerVolume  exec wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%-
+bindsym --locked XF86AudioMute         exec wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle
+bindsym --locked XF86MonBrightnessUp   exec brightnessctl s 5%+
+bindsym --locked XF86MonBrightnessDown exec brightnessctl s 5%-
+
+# ==============================================================================
+# セッション
+# ==============================================================================
+
+bindsym $mod+Shift+r      reload
+bindsym $mod+Ctrl+Shift+k exec swaymsg exit
+
+# ==============================================================================
+# ウィンドウルール
+# ==============================================================================
+
+for_window [app_id="btop"]            floating enable, resize set 1200 900
+for_window [app_id="btop-small"]      floating enable, resize set 900 600
+for_window [app_id="bluetuith-float"] floating enable, resize set 900 600, move position center
+for_window [app_id="impala-float"]    floating enable, resize set 900 600, move position center
+for_window [app_id="rmpc-float"]      floating enable, resize set 900 600, move position center
+for_window [app_id="wiremix-float"]   floating enable, resize set 900 600, move position center
+for_window [app_id="^.*"]     border pixel 2
+
+# ==============================================================================
+# マウス
+# ==============================================================================
+
+bindsym --border $mod+button2 kill
