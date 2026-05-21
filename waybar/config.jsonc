@@ -1,0 +1,129 @@
+{
+    "layer": "top",
+    "position": "top",
+    "height": 24,
+    "spacing": 4,
+    "modules-left": ["dwl/tags", "dwl/window"],
+    "modules-center": [],
+    "modules-right": [
+        "custom/weather",
+        "network",
+        "cpu",
+        "temperature",
+        "memory",
+        "disk",
+        "custom/mpd",
+        "custom/volume",
+        "custom/mic",
+        "bluetooth",
+        "backlight",
+        "battery",
+        "clock"
+    ],
+
+    "dwl/tags": {
+        "num-tags": 9
+    },
+
+    "dwl/window": {
+        "format": "[] = {title}",
+        "rewrite": {
+            "\\[\\] = (.+) - (.+)": "[] = $2",
+            "\\[\\] = (.+) — (.+)": "[] = $2"
+        }
+    },
+
+    "network": {
+        "interface": "wlan0",
+        "format-wifi": "{icon}  {essid}",
+        "format-icons": ["󰤯","󰤟","󰤢","󰤥","󰤨"],
+        "format-disconnected": " disconnected",
+        "interval": 2,
+        "on-click": "foot --app-id=impala-float -e impala",
+        "on-click-right": "foot --app-id=btop-small -e btop -p 5"
+    },
+
+    "cpu": {
+        "format": " CPU {usage}%",
+        "interval": 5,
+        "on-click": "foot --app-id=btop-small -e btop -p 1"
+    },
+
+    "temperature": {
+        "thermal-zone": 0,
+        "critical-threshold": 80,
+        "format": " {temperatureC}°C",
+        "format-critical": " {temperatureC}°C",
+        "interval": 5,
+        "on-click": "foot --app-id=btop-small -e btop -p 1"
+    },
+
+    "memory": {
+        "format": " MEM {percentage}%",
+        "interval": 5,
+        "on-click": "foot --app-id=btop-small -e btop -p 4"
+    },
+
+    "disk": {
+        "path": "/",
+        "format": " DISK {free}",
+        "interval": 30,
+        "on-click": "foot --app-id=btop-small -e btop -p 4"
+    },
+
+    "custom/mpd": {
+        "exec": "mpc status 2>/dev/null | awk 'NR==1{t=$0} NR==2{p=($1==\"[playing]\")} END{if(p) print t; else print \"MEDIA\"}'",
+        "interval": 2,
+        "format": " {}",
+        "on-click": "foot --app-id=rmpc-float -e rmpc"
+    },
+
+    "custom/volume": {
+        "exec": "wpctl get-volume @DEFAULT_AUDIO_SINK@ | awk '{if ($3==\"[MUTED]\") print \"VOL MUTED\"; else printf \"VOL %d%%\", $2*100}'",
+        "interval": 1,
+        "format": " {}",
+        "on-click": "wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle",
+        "on-click-right": "foot --app-id=wiremix-float -e wiremix -v output"
+    },
+
+    "custom/mic": {
+        "exec": "wpctl get-volume @DEFAULT_AUDIO_SOURCE@ | awk '{if ($3==\"[MUTED]\") print \"MIC MUTED\"; else printf \"MIC %d%%\", $2*100}'",
+        "interval": 1,
+        "format": " {}",
+        "on-click": "wpctl set-mute @DEFAULT_AUDIO_SOURCE@ toggle",
+        "on-click-right": "foot --app-id=wiremix-float -e wiremix -v input"
+    },
+
+    "bluetooth": {
+        "format": " BT",
+        "format-connected": " {device_alias}",
+        "format-off": " BT off",
+        "on-click": "foot --app-id=bluetuith-float -e bluetuith"
+    },
+
+    "backlight": {
+        "format": " BRI {percent}%",
+        "on-click": "brightnessctl s 5%+",
+        "on-click-right": "brightnessctl s 5%-"
+    },
+
+    "custom/weather": {
+        "exec": "curl -s 'wttr.in/Yokohama?format=%C+%t'",
+        "interval": 1800,
+        "format": " {}"
+    },
+
+    "battery": {
+        "bat": "BAT1",
+        "format": " {capacity}% {time}",
+        "format-icons": ["󰁺","󰁻","󰁼","󰁽","󰁾","󰁿","󰂀","󰂁","󰂂"],
+        "format-charging": "⚡ {capacity}% {time}",
+        "format-full": " 󱈏 {capacity}% {time}",
+        "interval": 30
+    },
+
+    "clock": {
+        "format": " {:%Y %m/%d %H:%M}",
+        "interval": 1
+    }
+}

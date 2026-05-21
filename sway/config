@@ -8,13 +8,14 @@ font pango:Iosevka Nerd Font Mono 11
 
 gaps inner 5
 gaps outer 10
-default_border pixel 2
-
+default_border pixel 1
 # ==============================================================================
 # 出力・壁紙
 # ==============================================================================
 
-output * bg ~/Wallpapers/bg2.jpg fill
+output * bg ~/Wallpapers/Default_Wallpaper.jpg fill
+output * allow_tearing yes
+
 
 # ==============================================================================
 # 入力
@@ -50,38 +51,22 @@ exec /usr/lib/xdg-desktop-portal-gtk
 # 環境変数
 # ==============================================================================
 
-exec_always systemctl --user import-environment WAYLAND_DISPLAY XDG_CURRENT_DESKTOP
+exec_always systemctl --user import-environment WAYLAND_DISPLAY XDG_CURRENT_DESKTOP XMODIFIERS GTK_IM_MODULE QT_IM_MODULE
 exec dbus-update-activation-environment --systemd WAYLAND_DISPLAY XDG_CURRENT_DESKTOP=sway
-
+ exec /usr/bin/gnome-keyring-daemon --start --components=secrets,pkcs11
 # ==============================================================================
-# カラー (Tokyo Night)
+# カラー
 # ==============================================================================
 
 # class                 border   bg       text     indicator child_border
-client.focused          #adc6ff  #adc6ff  #11131a  #adc6ff   #adc6ff
+client.focused          #767676  #adc6ff  #11131a  #767676   #767676
 client.unfocused        #363940  #363940  #e1e2eb  #363940   #363940
 client.focused_inactive #363940  #363940  #e1e2eb  #363940   #363940
 client.urgent           #ffb4ab  #ffb4ab  #11131a  #ffb4ab   #ffb4ab
-
 # ==============================================================================
 # バー
 # ==============================================================================
-
-bar {
-    status_command i3status-rs ~/dotfiles/i3status-rust/config.toml
-    position top
-    font pango:Iosevka Nerd Font Mono 11
-    colors {
-        background #11131a
-        statusline #e1e2eb
-        separator  #363940
-        focused_workspace  #adc6ff #adc6ff #11131a
-        active_workspace   #363940 #363940 #e1e2eb
-        inactive_workspace #11131a #11131a #e1e2eb
-        urgent_workspace   #ffb4ab #ffb4ab #11131a
-    }
-}
-
+exec_always waybar
 # ==============================================================================
 # アプリ起動
 # ==============================================================================
@@ -117,8 +102,6 @@ bindsym $mod+Shift+k move up
 bindsym $mod+Shift+l move right
 
 # 分割
-bindsym $mod+Shift+v split vertical
-bindsym $mod+Shift+b split horizontal
 
 # ==============================================================================
 # ワークスペース
@@ -160,6 +143,11 @@ mode "resize" {
 bindsym $mod+Shift+s exec mkdir -p ~/Pictures/Screenshots && grim -g "$(slurp)" /tmp/screenshot.png && cp /tmp/screenshot.png ~/Pictures/Screenshots/$(date +%Y-%m-%d_%H-%M-%S).png && wl-copy < /tmp/screenshot.png && notify-send "Screenshot" "Saved and copied to clipboard"
 
 # ==============================================================================
+# カラーピッカー
+# ==============================================================================
+bindsym $mod+Shift+c exec wl-color-picker clipboard; mode "default"
+
+# ==============================================================================
 # メディアキー
 # ==============================================================================
 
@@ -186,7 +174,6 @@ for_window [app_id="bluetuith-float"] floating enable, resize set 900 600, move 
 for_window [app_id="impala-float"]    floating enable, resize set 900 600, move position center
 for_window [app_id="rmpc-float"]      floating enable, resize set 900 600, move position center
 for_window [app_id="wiremix-float"]   floating enable, resize set 900 600, move position center
-for_window [app_id="^.*"]     border pixel 2
 
 # ==============================================================================
 # マウス
