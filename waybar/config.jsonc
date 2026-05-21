@@ -40,13 +40,13 @@
         "format-disconnected": " disconnected",
         "interval": 2,
         "on-click": "foot --app-id=impala-float -e impala",
-        "on-click-right": "foot --app-id=btop-small -e btop -p 5"
+        "on-click-right": "foot --window-size-pixels=1200x800 --app-id=btop-small -e btop -p 5"
     },
 
     "cpu": {
         "format": " CPU {usage}%",
         "interval": 5,
-        "on-click": "foot --app-id=btop-small -e btop -p 1"
+        "on-click": "foot --window-size-pixels=1200x800 --app-id=btop-small -e btop -p 1"
     },
 
     "temperature": {
@@ -55,20 +55,20 @@
         "format": " {temperatureC}°C",
         "format-critical": " {temperatureC}°C",
         "interval": 5,
-        "on-click": "foot --app-id=btop-small -e btop -p 1"
+        "on-click": "foot --window-size-pixels=1200x800 --app-id=btop-small -e btop -p 1"
     },
 
     "memory": {
         "format": " MEM {percentage}%",
         "interval": 5,
-        "on-click": "foot --app-id=btop-small -e btop -p 4"
+        "on-click": "foot --window-size-pixels=1200x800 --app-id=btop-small -e btop -p 4"
     },
 
     "disk": {
         "path": "/",
         "format": " DISK {free}",
         "interval": 30,
-        "on-click": "foot --app-id=btop-small -e btop -p 4"
+        "on-click": "foot --window-size-pixels=1200x800 --app-id=btop-small -e btop -p 4"
     },
 
     "custom/mpd": {
