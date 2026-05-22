@@ -9,6 +9,7 @@ return {
         "vtsls",        -- TypeScript/React LSP
         "eslint-lsp",   -- タイポ・静的解析
         "prettier",     -- コード整形
+        "rust-analyzer", -- Rust LSP
       },
     },
   },

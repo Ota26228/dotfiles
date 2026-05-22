@@ -31,6 +31,9 @@ require('lazy').setup({
     -- import all plugins from lua/plugins folder
     { import = 'plugins' },
   },
+  git = {
+    url_format = "https://github.com/%s.git",
+  },
   -- Configure any other settings for lazy.nvim itself
   checker = {
     enabled = true,
