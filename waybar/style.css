@@ -54,12 +54,15 @@ window#waybar {
 /* Left */
 #mpd {
     padding: 0 8px;
-    color: #9da8c7;
+    color: #FFA74E
+;
 }
 
-#mpd.paused    { color: #767676; }
-#mpd.stopped   { color: #363940; }
-#mpd.disconnected { color: #363940; }
+#mpd.paused    { color: #FFA74E; }
+
+
+#mpd.stopped   { color: #FFA74E; }
+#mpd.disconnected { color: #FFA74E; }
 
 #network.disconnected { color: #363940; }
 

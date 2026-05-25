@@ -40,8 +40,8 @@
     "mpd": {
         "format":              "<span font_family='Iosevka Nerd Font Mono' font_size='15pt'>󰐊</span> {artist} - {title} [{elapsedTime:%M:%S}/{totalTime:%M:%S}]",
         "format-paused":       "<span font_family='Iosevka Nerd Font Mono' font_size='15pt'>󰏤</span> {artist} - {title} [{elapsedTime:%M:%S}/{totalTime:%M:%S}]",
-        "format-stopped":      "",
-        "format-disconnected": "",
+        "format-stopped":      "<span font_family='Iosevka Nerd Font Mono' font_size='15pt'>󰝚</span>",
+        "format-disconnected": "󰝛",
         "max-length": 60,
         "on-click":        "mpc toggle",
         "on-click-right":  "foot --app-id=float-term -e rmpc",
@@ -67,6 +67,7 @@
         "format": "<span font_family='Iosevka Nerd Font Mono' font_size='20pt'>󰣇</span>{}",
         "return-type": "json",
         "on-click": "foot --app-id=update-term -e sudo pacman -Syu",
+        "on-click-right": "foot --app-id=update-term -e sh -c 'checkupdates && echo \"Press Enter to close\" && read'",
         "tooltip": true
     },
 
@@ -145,7 +146,7 @@
     },
 
     "custom/power": {
-        "format": "<span font_family='Iosevka Nerd Font Mono' font_size='15pt'>󰐥</span>",
+        "format": "<span font_family='Iosevka Nerd Font Mono' font_size='18pt'>󰐥</span>",
         "on-click": "wlogout",
         "tooltip": false
     }
