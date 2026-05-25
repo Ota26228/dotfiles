@@ -16,13 +16,12 @@ fi
 
 # ─── pacman packages ───────────────────────────────────────────────────────
 PACMAN_PKGS=(
-    sway autotiling i3status-rust
+    waybar rofi
     foot mako tofi swaylock swaybg
-    btop brightnessctl
+    btop htop brightnessctl
     grim slurp wl-clipboard
     fcitx5 fcitx5-mozc fcitx5-gtk fcitx5-qt
     fish starship
-    qutebrowser
     mpd rmpc
     bluez bluez-utils bluez-obex
     polkit-kde-agent xdg-desktop-portal-gtk
@@ -35,10 +34,13 @@ sudo pacman -S --needed --noconfirm "${PACMAN_PKGS[@]}"
 
 # ─── AUR packages ──────────────────────────────────────────────────────────
 AUR_PKGS=(
+    mangowm-git
     impala
     wiremix
-    bluetuith
+    blupala
     mpd-mpris
+    s-tui
+    walker-bin
 )
 
 echo "[aur] installing packages..."
@@ -54,35 +56,19 @@ link() {
 }
 
 echo "[symlinks]"
-link sway/config          ~/.config/sway/config
-link i3status-rust        ~/.config/i3status-rust
+link mango/config.conf    ~/.config/mango/config.conf
+link mango/autostart.sh   ~/.config/mango/autostart.sh
+link waybar/config.jsonc  ~/.config/waybar/config
+link waybar/style.css     ~/.config/waybar/style.css
+link wlogout/layout       ~/.config/wlogout/layout
+link wlogout/style.css    ~/.config/wlogout/style.css
 link fish/config.fish     ~/.config/fish/config.fish
 link foot                 ~/.config/foot
 link mako                 ~/.config/mako
 link tofi                 ~/.config/tofi
-link qutebrowser          ~/.config/qutebrowser
 link nvim                 ~/.config/nvim
 link starship.toml        ~/.config/starship.toml
 link btop.conf            ~/.config/btop/btop.conf
-
-# ─── fcitx5 環境変数 ────────────────────────────────────────────────────────
-FISH_CONF="$DOTFILES/fish/config.fish"
-if ! grep -q "GTK_IM_MODULE" "$FISH_CONF"; then
-    echo "[fcitx5] adding environment variables..."
-    cat >> "$FISH_CONF" << 'EOF'
-
-# fcitx5
-set -x GTK_IM_MODULE fcitx
-set -x QT_IM_MODULE fcitx
-set -x XMODIFIERS @im=fcitx
-EOF
-fi
-
-# ─── Wallpapers ─────────────────────────────────────────────────────────────
-mkdir -p ~/Wallpapers
-if [ ! -f ~/Wallpapers/bg2.jpg ]; then
-    echo "[wallpaper] ~/Wallpapers/bg2.jpg が見つかりません。手動で配置してください。"
-fi
 
 # ─── services ───────────────────────────────────────────────────────────────
 echo "[services]"
@@ -91,4 +77,4 @@ systemctl --user enable --now mpd
 systemctl --user enable --now mpd-mpris
 
 echo ""
-echo "done. sway を起動してください。"
+echo "done. mango を起動してください。"

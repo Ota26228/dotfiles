@@ -23,3 +23,5 @@ if status is-interactive
     # Starship
     starship init fish | source
 end
+set -x FLYCTL_INSTALL "/home/ota2525/.fly"
+  set -x PATH "$FLYCTL_INSTALL/bin" $PATH

@@ -1,0 +1,32 @@
+* {
+    background-image: none;
+    box-shadow: none;
+}
+
+window {
+    background-color: rgba(17, 19, 26, 0.9);
+}
+
+button {
+    color: #e1e2eb;
+    background-color: #1e2130;
+    border: 1px solid #363940;
+    border-radius: 4px;
+    margin: 8px;
+    padding: 24px 48px;
+    font-family: "Iosevka Nerd Font Mono";
+    font-size: 18px;
+    transition: background-color 0.2s;
+}
+
+button:hover {
+    background-color: #363940;
+    color: #adc6ff;
+    border-color: #adc6ff;
+}
+
+#lock    { background-image: none; }
+#logout  { background-image: none; }
+#suspend { background-image: none; }
+#reboot  { background-image: none; }
+#shutdown { background-image: none; }

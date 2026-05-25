@@ -1,0 +1,89 @@
+* {
+    font-family: "Iosevka Nerd Font Mono";
+    font-size: 15px;
+    min-height: 0;
+    border: none;
+    border-radius: 0;
+}
+
+window#waybar {
+    background: rgba(17, 19, 26, 0.8);
+    color: #e1e2eb;
+}
+
+/* Tags (dwl/tags) */
+#tags button {
+    padding: 0 4px;
+    color: #2a2d3a;
+    background: transparent;
+    font-size: 13px;
+}
+
+#tags button.occupied { color: #767676; }
+#tags button.focused  { color: #adc6ff; }
+#tags button.urgent   { color: #ffb4ab; }
+
+/* タグ 6〜9 を非表示 */
+#tags button:nth-child(n+6) {
+    min-width: 0;
+    padding: 0;
+    margin: 0;
+    font-size: 0;
+    border: none;
+}
+
+/* Window title */
+#window {
+    padding: 0 8px;
+    color: #9da8c7;
+    font-style: italic;
+    font-size: 14px;
+}
+
+/* Center */
+#network {
+    padding: 0 12px;
+    color: #e1e2eb;
+}
+
+#cava {
+    color: #adc6ff;
+    padding: 0 8px;
+}
+
+/* Left */
+#mpd {
+    padding: 0 8px;
+    color: #9da8c7;
+}
+
+#mpd.paused    { color: #767676; }
+#mpd.stopped   { color: #363940; }
+#mpd.disconnected { color: #363940; }
+
+#network.disconnected { color: #363940; }
+
+/* Right modules */
+#custom-update,
+#cpu,
+#memory,
+#backlight,
+#pulseaudio,
+#battery,
+#clock,
+#custom-power {
+    padding: 0 8px;
+    color: #e1e2eb;
+}
+
+#custom-sep     { color: #363940; padding: 0 4px; }
+#custom-update              { color: #1793d1; }
+#custom-update.has-updates  { color: #adc6ff; }
+#custom-power   { color: #ff5555; padding: 0 10px; }
+#custom-power:hover { color: #ffb4ab; }
+
+#cpu.warning,
+#memory.warning { color: #ffb4ab; }
+
+#battery.warning  { color: #ffb4ab; }
+#battery.critical { color: #ffb4ab; font-weight: bold; }
