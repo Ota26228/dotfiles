@@ -67,6 +67,7 @@ link foot                 ~/.config/foot
 link mako                 ~/.config/mako
 link tofi                 ~/.config/tofi
 link nvim                 ~/.config/nvim
+link rofi/config.rasi     ~/.config/rofi/config.rasi
 link starship.toml        ~/.config/starship.toml
 link btop.conf            ~/.config/btop/btop.conf
 

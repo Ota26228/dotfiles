@@ -1,8 +1,8 @@
 configuration {
-    modes: "drun,run";
+    modi: "drun";
     show-icons: true;
     location: 0;
-    font: "Iosevka Nerd Font Mono 12";
+    font: "Noto Sans CJK JP 12";
     icon-theme: "Papirus";
     drun-display-format: "{icon} {name}";
     kb-cancel: "Escape,Control+g,Control+bracketleft";
@@ -85,7 +85,7 @@ element.normal.normal {
 
 element.normal.urgent {
     background-color: @bg;
-    text-color: #f7768e; /* Red for urgent */
+    text-color: #f7768e;
 }
 
 element.normal.active {

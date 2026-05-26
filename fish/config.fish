@@ -6,6 +6,9 @@ fish_add_path ~/.npm-global/bin
 # Environment
 set -x EDITOR nvim
 set -g fish_greeting ""
+set -gx XMODIFIERS @im=fcitx
+set -gx GTK_IM_MODULE fcitx
+set -gx QT_IM_MODULE fcitx
 
 if status is-interactive
     # Vim keybinds
