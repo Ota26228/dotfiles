@@ -22,6 +22,7 @@ if status is-interactive
     alias fishconfig 'nvim ~/.config/fish/config.fish'
     alias vconfig 'nvim ~/.config/nvim/init.lua'
     alias music music_tui
+    alias vesktop 'vesktop --ozone-platform=x11 --disable-gpu --no-sandbox'
 
     # Starship
     starship init fish | source
