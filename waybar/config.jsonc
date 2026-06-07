@@ -57,8 +57,8 @@
         "format-disconnected": "<span font_family='Iosevka Nerd Font Mono' font_size='15pt'>󰖪</span>  切断",
         "tooltip-format-wifi": "{essid}\n{signalStrength}% / {frequency}GHz\n↓{bandwidthDownBytes} ↑{bandwidthUpBytes}",
         "interval": 5,
-        "on-click":       "foot --app-id=float-term -e impala",
-        "on-click-right": "foot --app-id=float-term -e btop"
+        "on-click":       "foot --app-id=float-term -e nmtui",
+        "on-click-right": "foot --app-id=float-term -e btop -p 2"
     },
 
     "custom/update": {

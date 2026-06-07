@@ -22,10 +22,14 @@ if status is-interactive
     alias fishconfig 'nvim ~/.config/fish/config.fish'
     alias vconfig 'nvim ~/.config/nvim/init.lua'
     alias music music_tui
-    alias vesktop 'vesktop --ozone-platform=x11 --disable-gpu --no-sandbox'
 
     # Starship
     starship init fish | source
+
+    # direnv（プロジェクトの devShell を cd で自動有効化）
+    if command -q direnv
+        direnv hook fish | source
+    end
 end
 set -x FLYCTL_INSTALL "/home/ota2525/.fly"
   set -x PATH "$FLYCTL_INSTALL/bin" $PATH
