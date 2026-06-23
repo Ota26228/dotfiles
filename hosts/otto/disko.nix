@@ -24,6 +24,7 @@
             type = "luks";
             name = "cryptroot";
             settings.allowDiscards = true;   # SSDのTRIM許可
+            settings.crypttabExtraOpts = [ "tpm2-device=auto" "tpm2-pcrs=0+7" ];
             content = {
               type = "btrfs";
               extraArgs = [ "-f" ];

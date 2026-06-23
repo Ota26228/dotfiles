@@ -1,12 +1,14 @@
 {
     "layer": "top",
     "position": "top",
-    "height": 24,
     "spacing": 0,
+    "margin-top": 6,
+    "margin-left": 8,
+    "margin-right": 8,
 
-    "modules-left":   ["dwl/tags", "custom/sep", "dwl/window", "custom/sep", "mpd", "cava"],
+    "modules-left":   ["dwl/tags", "dwl/window", "mpd", "cava"],
     "modules-center": ["network"],
-    "modules-right":  ["cpu", "custom/sep", "memory", "disk", "custom/sep", "backlight", "custom/sep", "bluetooth", "custom/sep", "pulseaudio", "pulseaudio#microphone", "custom/sep", "custom/update", "custom/sep", "battery", "custom/sep", "clock", "custom/sep", "custom/power"],
+    "modules-right":  ["memory", "bluetooth", "pulseaudio", "pulseaudio#microphone", "custom/update", "battery", "clock", "custom/power"],
 
     "dwl/tags": {
         "num-tags": 9,
@@ -14,13 +16,8 @@
     },
 
     "dwl/window": {
+        "format": "<span font_family='Iosevka Nerd Font Mono' font_size='10pt'>[] = </span> {title}",
         "max-length": 60
-    },
-
-    "custom/sep": {
-        "format": "|",
-        "tooltip": false,
-        "interval": "once"
     },
 
     "cava": {
@@ -44,7 +41,7 @@
         "format-disconnected": "󰝛",
         "max-length": 60,
         "on-click":        "mpc toggle",
-        "on-click-right":  "foot --app-id=float-term -e rmpc",
+        "on-click-right":  "kitty --class float-term -e rmpc",
         "on-click-middle": "mpc stop",
         "on-scroll-up":    "mpc next",
         "on-scroll-down":  "mpc prev",
@@ -57,46 +54,25 @@
         "format-disconnected": "<span font_family='Iosevka Nerd Font Mono' font_size='15pt'>󰖪</span>  切断",
         "tooltip-format-wifi": "{essid}\n{signalStrength}% / {frequency}GHz\n↓{bandwidthDownBytes} ↑{bandwidthUpBytes}",
         "interval": 5,
-        "on-click":       "foot --app-id=float-term -e nmtui",
-        "on-click-right": "foot --app-id=float-term -e btop -p 2"
+        "on-click":       "kitty --class nmtui-term -e nmtui",
+        "on-click-right": "kitty --class float-term -e btop -p 2"
     },
 
     "custom/update": {
-        "exec": "count=$(checkupdates 2>/dev/null | wc -l); if [ \"$count\" -gt 0 ]; then printf '{\"text\":\" %s\",\"class\":\"has-updates\",\"tooltip\":\"%s updates available\"}' \"$count\" \"$count\"; else printf '{\"text\":\"\",\"tooltip\":\"Up to date\"}'; fi",
-        "interval": 3600,
-        "format": "<span font_family='Iosevka Nerd Font Mono' font_size='20pt'>󰣇</span>{}",
+        "exec": "if [ /home/ota2525/dotfiles/flake.lock -nt /run/current-system ]; then printf '{\"text\":\"\",\"class\":\"has-updates\",\"tooltip\":\"flake.lock が更新されています。nixos-rebuild が必要です\"}'; else printf '{\"text\":\"\",\"tooltip\":\"最新の状態です\"}'; fi",
+        "interval": 60,
+        "format": "<span font_family='Iosevka Nerd Font Mono' font_size='20pt'>󱄅</span>",
         "return-type": "json",
-        "on-click": "foot --app-id=update-term -e sudo pacman -Syu",
-        "on-click-right": "foot --app-id=update-term -e sh -c 'checkupdates && echo \"Press Enter to close\" && read'",
+        "on-click": "kitty --class update-term -e sh -c 'sudo nixos-rebuild switch --flake ~/dotfiles 2>&1 | tee /tmp/nixos-rebuild.log; echo \"Press Enter to close\"; read'",
+        "on-click-right": "kitty --class update-term -e sh -c 'cd ~/dotfiles && nix flake update 2>&1 | tee /tmp/flake-update.log; echo \"Press Enter to close\"; read'",
         "tooltip": true
     },
 
-    "cpu": {
-        "format": "<span font_family='Iosevka Nerd Font Mono' font_size='19pt'></span> {usage}%",
-        "interval": 2,
-        "tooltip": false,
-        "on-click": "foot --app-id=float-term -e bash -c 'btop -p 6'"
-    },
-
     "memory": {
-        "format": "<span font_family='Iosevka Nerd Font Mono' font_size='19pt'>󰍛</span> {used:.1f}G ",
+        "format": "<span font_family='Iosevka Nerd Font Mono' font_size='19pt'>󰍛</span> {used:.1f}G",
         "interval": 5,
         "tooltip-format": "{used:.1f}G / {total:.1f}G",
-        "on-click": "foot --app-id=float-term -e bash -c 'btop -p 4'"
-    },
-
-    "disk": {
-        "format": "<span font_family='Iosevka Nerd Font Mono' font_size='19pt'></span> {percentage_used}%",
-        "path": "/",
-        "interval": 30,
-        "tooltip-format": "{used} / {total}",
-        "on-click": "foot --app-id=float-term -e bash -c 'btop -p 4'"
-    },
-
-    "backlight": {
-        "device": "intel_backlight",
-        "format": "<span font_family='Iosevka Nerd Font Mono' font_size='19pt'>{icon}</span> {percent}%",
-        "format-icons": ["󰃞", "󰃟", "󰃠"]
+        "on-click": "kitty --class float-term -e btop"
     },
 
     "bluetooth": {
@@ -106,7 +82,7 @@
         "tooltip-format":           "Bluetooth: off",
         "tooltip-format-connected": "{controller_alias}\n{num_connections} connected\n{device_enumerate}",
         "tooltip-format-enumerate-connected": "  {device_alias}",
-        "on-click": "foot --app-id=float-term -e blupala"
+        "on-click": "kitty --class float-term -e blupala"
     },
 
     "pulseaudio": {
@@ -116,7 +92,7 @@
             "default": ["󰕿", "󰖀", "󰕾"]
         },
         "on-click": "wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle",
-        "on-click-right": "foot --app-id=float-term -e wiremix -v output",
+        "on-click-right": "kitty --class float-term -e wiremix -v output",
         "on-scroll-up": "wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%+",
         "on-scroll-down": "wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%-"
     },
@@ -126,22 +102,22 @@
         "format-source": "<span font_family='Iosevka Nerd Font Mono' font_size='15pt'>󰍬</span> {volume}%",
         "format-source-muted": "<span font_family='Iosevka Nerd Font Mono' font_size='15pt'>󰍭</span> mute",
         "on-click": "wpctl set-mute @DEFAULT_AUDIO_SOURCE@ toggle",
-        "on-click-right": "foot --app-id=float-term -e wiremix -v input",
+        "on-click-right": "kitty --class float-term -e wiremix -v input",
         "on-scroll-up": "wpctl set-volume @DEFAULT_AUDIO_SOURCE@ 5%+",
         "on-scroll-down": "wpctl set-volume @DEFAULT_AUDIO_SOURCE@ 5%-",
         "tooltip": false
     },
 
     "battery": {
-        "format":          "<span font_family='Iosevka Nerd Font Mono' font_size='10pt'>{icon}</span> {capacity}%",
-        "format-icons":    ["󰁺", "󰁻", "󰁼", "󰁽", "󰁾", "󰁿", "󰂀", "󰂁", "󰂂", "󰁹"],
-        "format-charging": "<span font_family='Iosevka Nerd Font Mono' font_size='10pt'>󰂄</span> {capacity}%",
+        "format":          "<span font_family='Iosevka Nerd Font Mono' font_size='20pt'>{icon}</span> {capacity}%",
+        "format-icons":    ["","","",""],
         "format-plugged":  "<span font_family='Iosevka Nerd Font Mono' font_size='10pt'>󰚥</span> {capacity}%",
+        "format-charging":  "<span font_family='Iosevka Nerd Font Mono' font_size='10pt'>󰚥</span> {capacity}%",
         "states": { "warning": 30, "critical": 15 }
     },
 
     "clock": {
-        "format": "<span font_family='Iosevka Nerd Font Mono' font_size='17pt'></span> {:%H:%M}",
+        "format": "<span font_family='Iosevka Nerd Font Mono' font_size='17pt'></span> {:%H:%M}",
         "tooltip-format": "{:%Y-%m-%d %a}"
     },
 

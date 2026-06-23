@@ -1,0 +1,65 @@
+# ~/dotfiles/config/yazi/yazi.toml
+
+[mgr]
+ratio = [1, 4, 3]          # 親 / カレント / プレビューの幅比
+sort_by = "natural"         # file10がfile2の後に来る自然順
+sort_sensitive = false
+sort_dir_first = true       # ディレクトリを先頭に
+linemode = "size"           # ファイルサイズを行に表示
+show_hidden = false         # 隠しファイル（zで切替できるようkeymapに追加推奨）
+show_symlink = true
+
+[preview]
+wrap = "no"
+tab_size = 2
+max_width = 1000
+max_height = 1000
+image_protocol = "kitty"
+image_filter = "lanczos3"   # 画像プレビューの品質
+image_quality = 80
+
+[opener]
+edit = [
+  { run = 'nvim "$@"', desc = "nvim", block = true },
+]
+pdf = [
+  { run = 'zathura "$@"', desc = "zathura", orphan = true },
+  { run = 'mupdf "$@"', desc = "mupdf", orphan = true },
+  { run = 'xournalpp "$@"', desc = "Xournal++ (注釈)", orphan = true },
+]
+image = [
+  { run = 'imv "$@"', desc = "imv", orphan = true },
+]
+video = [
+  { run = 'mpv "$@"', desc = "mpv", orphan = true },
+]
+audio = [
+  { run = 'mpv --no-video "$@"', desc = "mpv", orphan = true },
+]
+extract = [
+  { run = 'ya pub extract --list "$@"', desc = "Extract here" },
+]
+fallback = [
+  { run = 'xdg-open "$@"', desc = "Open", orphan = true },
+]
+
+[open]
+rules = [
+  { url = "*/", use = "edit" },                     # ディレクトリはEnterで入る扱い
+  { mime = "text/*", use = "edit" },
+  { mime = "application/json", use = "edit" },
+  { mime = "application/toml", use = "edit" },
+  { mime = "application/x-shellscript", use = "edit" },
+  { mime = "inode/empty", use = "edit" },            # 空ファイルもnvimで
+  { mime = "application/pdf", use = "pdf" },
+  { mime = "image/*", use = "image" },
+  { mime = "video/*", use = "video" },
+  { mime = "audio/*", use = "audio" },
+  { mime = "application/{zip,gzip,x-tar,x-bzip2,x-7z-compressed,x-rar,xz}", use = "extract" },
+  { mime = "*", use = "fallback" },
+]
+
+[tasks]
+micro_workers = 10
+macro_workers = 10
+image_alloc = 536870912     # 512MB（大きい画像プレビュー用）

@@ -1,4 +1,10 @@
-format = "$directory$git_branch$git_status$character"
+format = "$nix_shell$directory$git_branch$git_status$character"
+
+[nix_shell]
+format = "[❄ $name]($style) "
+style = "bold cyan"
+impure_msg = ""
+pure_msg = ""
 
 [directory]
 style = ""

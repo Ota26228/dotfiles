@@ -1,23 +1,4 @@
-return {
-  -- Mason本体と、LSP/フォーマッタを自動インストールするための設定
-  {
-    "williamboman/mason.nvim",
-    cmd = "Mason", -- :Mason コマンドを有効化
-    build = ":MasonUpdate",
-    opts = {
-      ensure_installed = {
-        "vtsls",        -- TypeScript/React LSP
-        "eslint-lsp",   -- タイポ・静的解析
-        "prettier",     -- コード整形
-        "rust-analyzer", -- Rust LSP
-      },
-    },
-  },
-  -- Masonとlspconfigを橋渡しする設定
-  {
-    "williamboman/mason-lspconfig.nvim",
-    opts = {
-      automatic_installation = true,
-    },
-  },
-}
+-- NixOS では mason によるバイナリ自動インストールが動作しない（非FHS環境）。
+-- LSP サーバーは home.nix の home.packages でインストールする。
+-- このファイルは mason を読み込まず、lspconfig のみに依存する設定。
+return {}

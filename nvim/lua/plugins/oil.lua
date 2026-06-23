@@ -1,9 +1,12 @@
 return {
   "stevearc/oil.nvim",
+  lazy = true,
+  cmd = "Oil",
+  keys = { { "<leader>e", "<CMD>Oil<CR>", desc = "Open parent directory" } },
   dependencies = { "nvim-tree/nvim-web-devicons" },
   config = function()
     require("oil").setup({
-      default_file_explorer = true,
+      default_file_explorer = false,
       columns = {
         "icon",
         "permissions",
@@ -26,7 +29,5 @@ return {
       },
     })
 
-    -- キーマップ: <leader>e で oil を開く
-    vim.keymap.set("n", "<leader>e", "<CMD>Oil<CR>", { desc = "Open parent directory" })
   end,
 }

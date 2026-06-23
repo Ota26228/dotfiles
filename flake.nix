@@ -18,12 +18,24 @@
       url = "github:DreamMaoMao/mangowc";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+
+    blupala = {
+      url = "github:Ota26228/blupala";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
+    zen-browser = {
+      url = "github:0xc000022070/zen-browser-flake";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
-  outputs = { self, nixpkgs, home-manager, disko, mangowc, ... }@inputs:
+  outputs = { self, nixpkgs, home-manager, disko, mangowc, blupala, zen-browser, ... }@inputs:
   let
     system = "x86_64-linux";
     pkgs = nixpkgs.legacyPackages.${system};
+    blupala-pkg = blupala.packages.${system}.default;
+    zen-browser-pkg = zen-browser.packages.${system}.default;
   in
   {
     nixosConfigurations.otto = nixpkgs.lib.nixosSystem {
@@ -41,7 +53,7 @@
         {
           home-manager.useGlobalPkgs = true;
           home-manager.useUserPackages = true;
-          home-manager.extraSpecialArgs = { inherit inputs; };
+          home-manager.extraSpecialArgs = { inherit inputs; blupala = blupala-pkg; zen-browser = zen-browser-pkg; };
           home-manager.sharedModules = [ mangowc.hmModules.mango ];
           home-manager.users.ota2525 = import ./home/home.nix;
         }

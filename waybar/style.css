@@ -7,11 +7,36 @@
 }
 
 window#waybar {
-    background: rgba(17, 19, 26, 0.8);
+    background: transparent;
     color: #e1e2eb;
 }
 
-/* Tags (dwl/tags) */
+/* ── Island base background ──────────────────────────────────────────── */
+#tags,
+#window,
+#mpd,
+#cava,
+#network,
+#memory,
+#bluetooth,
+#pulseaudio,
+#pulseaudio.microphone,
+#custom-update,
+#battery,
+#clock,
+#custom-power {
+    background: rgba(17, 19, 26, 0.60);
+    margin-top: 4px;
+    margin-bottom: 4px;
+}
+
+/* ── Single-module islands ───────────────────────────────────────────── */
+#tags    { border-radius: 12px; margin-left: 3px; margin-right: 6px; padding: 0 4px; }
+#window  { border-radius: 12px; margin-left: 0;   margin-right: 6px; padding: 0 12px; }
+#network { border-radius: 12px; margin-left: 3px; margin-right: 3px; padding: 0 14px; }
+#custom-power { border-radius: 12px; margin-left: 6px; margin-right: 0; padding: 0 12px; }
+
+/* ── Tags ────────────────────────────────────────────────────────────── */
 #tags button {
     padding: 0 4px;
     color: #2a2d3a;
@@ -23,7 +48,6 @@ window#waybar {
 #tags button.focused  { color: #adc6ff; }
 #tags button.urgent   { color: #ffb4ab; }
 
-/* タグ 6〜9 を非表示 */
 #tags button:nth-child(n+6) {
     min-width: 0;
     padding: 0;
@@ -32,61 +56,44 @@ window#waybar {
     border: none;
 }
 
-/* Window title */
+/* ── Window title ────────────────────────────────────────────────────── */
 #window {
-    padding: 0 8px;
     color: #9da8c7;
     font-style: italic;
     font-size: 14px;
 }
 
-/* Center */
-#network {
-    padding: 0 12px;
-    color: #e1e2eb;
-}
+/* ── Media island: mpd | cava ────────────────────────────────────────── */
+#mpd  { border-radius: 12px 0 0 12px; margin-left: 6px; padding: 0 8px; color: #FFA74E; }
+#cava { border-radius: 0 12px 12px 0; margin-right: 3px; padding: 0 8px; color: #adc6ff; }
 
-#cava {
-    color: #adc6ff;
-    padding: 0 8px;
-}
-
-/* Left */
-#mpd {
-    padding: 0 8px;
-    color: #FFA74E
-;
-}
-
-#mpd.paused    { color: #FFA74E; }
-
-
-#mpd.stopped   { color: #FFA74E; }
+#mpd.paused       { color: #FFA74E; }
+#mpd.stopped      { color: #FFA74E; }
 #mpd.disconnected { color: #FFA74E; }
 
+/* ── Network ─────────────────────────────────────────────────────────── */
+#network { color: #e1e2eb; }
 #network.disconnected { color: #363940; }
 
-/* Right modules */
-#custom-update,
-#cpu,
-#memory,
-#backlight,
-#pulseaudio,
-#battery,
-#clock,
-#custom-power {
-    padding: 0 8px;
-    color: #e1e2eb;
-}
+/* ── System: memory / bluetooth（各独立）────────────────────────────── */
+#memory    { border-radius: 12px; margin-left: 3px; margin-right: 3px; padding: 0 8px; color: #e1e2eb; }
+#bluetooth { border-radius: 12px; margin-left: 3px; margin-right: 3px; padding: 0 8px; color: #e1e2eb; }
 
-#custom-sep     { color: #363940; padding: 0 4px; }
-#custom-update              { color: #1793d1; }
-#custom-update.has-updates  { color: #adc6ff; }
-#custom-power   { color: #ff5555; padding: 0 10px; }
-#custom-power:hover { color: #ffb4ab; }
-
-#cpu.warning,
 #memory.warning { color: #ffb4ab; }
 
+/* ── Audio island: volume | mic（一体）──────────────────────────────── */
+#pulseaudio            { border-radius: 12px 0 0 12px; margin-left: 3px; margin-right: 0; padding: 0 8px; color: #e1e2eb; }
+#pulseaudio.microphone { border-radius: 0 12px 12px 0; margin-left: 0;  margin-right: 3px; padding: 0 8px; color: #e1e2eb; }
+
+/* ── Status: nix / battery / clock（各独立）─────────────────────────── */
+#custom-update { border-radius: 12px; margin-left: 3px; margin-right: 3px; padding: 0 8px; color: #1793d1; }
+#battery       { border-radius: 12px; margin-left: 3px; margin-right: 3px; padding: 0 8px; color: #e1e2eb; }
+#clock         { border-radius: 12px; margin-left: 3px; margin-right: 3px; padding: 0 8px; color: #e1e2eb; }
+
+#custom-update.has-updates { color: #adc6ff; }
 #battery.warning  { color: #ffb4ab; }
 #battery.critical { color: #ffb4ab; font-weight: bold; }
+
+/* ── Power ───────────────────────────────────────────────────────────── */
+#custom-power { color: #ff5555; }
+#custom-power:hover { color: #ffb4ab; }

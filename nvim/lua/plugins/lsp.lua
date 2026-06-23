@@ -1,42 +1,50 @@
 return {
   {
     "neovim/nvim-lspconfig",
-    dependencies = {
-      "williamboman/mason.nvim",
-      "williamboman/mason-lspconfig.nvim",
-    },
     config = function()
-      -- 1. 診断表示の設定
       vim.diagnostic.config({
         update_in_insert = false,
         virtual_text = { prefix = "●" },
         severity_sort = true,
+        float = {
+          border = "rounded",
+          source = true,
+        },
       })
 
-      -- 2. mason-lspconfig のセットアップ
-      require("mason-lspconfig").setup({
-        ensure_installed = { "vtsls", "eslint" },
-      })
+      -- nixpkgs でインストールした LSP サーバーを直接設定
+      vim.lsp.config("ts_ls", {})
+      vim.lsp.config("eslint", {})
+      vim.lsp.config("pyright", {})
 
-      -- 3. vim.lsp.config を使った最新のセットアップ
-      -- 注意: これにより lspconfig.vtsls.setup() のような古い形式を回避します
-
-      -- vtsls (TypeScript/React)
-      vim.lsp.config("vtsls", {})
-
-      -- eslint
-      vim.lsp.config("eslint", {
-        -- on_attach の代わりに、LSPがバッファにアタッチされた時の処理
-        -- Neovim 0.11以降は LspAttach オートコマンドで書くのがモダンです
-      })
-
-      -- 最後に、全てを有効化
-      vim.lsp.enable("vtsls")
+      vim.lsp.enable("ts_ls")
       vim.lsp.enable("eslint")
+      vim.lsp.enable("pyright")
 
-      -- ESLintの自動保存修正をオートコマンドで別途定義
+      -- 全 LSP に共通のキーマップ
       vim.api.nvim_create_autocmd("LspAttach", {
         callback = function(args)
+          local map = function(mode, lhs, rhs, desc)
+            vim.keymap.set(mode, lhs, rhs, { buffer = args.buf, desc = desc })
+          end
+
+          map("n", "gd", vim.lsp.buf.definition, "Go to Definition")
+          map("n", "gD", vim.lsp.buf.declaration, "Go to Declaration")
+          map("n", "gr", vim.lsp.buf.references, "Go to References")
+          map("n", "gi", vim.lsp.buf.implementation, "Go to Implementation")
+          map("n", "gt", vim.lsp.buf.type_definition, "Go to Type Definition")
+          map("n", "K", vim.lsp.buf.hover, "Hover")
+          map("i", "<C-k>", vim.lsp.buf.signature_help, "Signature Help")
+          map("n", "<leader>la", vim.lsp.buf.code_action, "Code Action")
+          map("v", "<leader>la", vim.lsp.buf.code_action, "Code Action")
+          map("n", "<leader>lr", vim.lsp.buf.rename, "Rename")
+          map("n", "<leader>ld", vim.diagnostic.open_float, "Line Diagnostics")
+          map("n", "<leader>lq", vim.diagnostic.setloclist, "Quickfix Diagnostics")
+          map("n", "]d", function() vim.diagnostic.jump({ count = 1, float = true }) end, "Next Diagnostic")
+          map("n", "[d", function() vim.diagnostic.jump({ count = -1, float = true }) end, "Prev Diagnostic")
+          map("n", "]e", function() vim.diagnostic.jump({ count = 1, severity = vim.diagnostic.severity.ERROR, float = true }) end, "Next Error")
+          map("n", "[e", function() vim.diagnostic.jump({ count = -1, severity = vim.diagnostic.severity.ERROR, float = true }) end, "Prev Error")
+
           local client = vim.lsp.get_client_by_id(args.data.client_id)
           if client and client.name == "eslint" then
             vim.api.nvim_create_autocmd("BufWritePre", {

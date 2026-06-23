@@ -5,6 +5,7 @@ fish_add_path ~/.npm-global/bin
 
 # Environment
 set -x EDITOR nvim
+set -x NIXOS_OZONE_WL 1
 set -g fish_greeting ""
 set -gx XMODIFIERS @im=fcitx
 set -gx GTK_IM_MODULE fcitx
@@ -24,7 +25,9 @@ if status is-interactive
     alias music music_tui
 
     # Starship
-    starship init fish | source
+    if command -q starship
+        starship init fish | source
+    end
 
     # direnv（プロジェクトの devShell を cd で自動有効化）
     if command -q direnv
@@ -32,4 +35,5 @@ if status is-interactive
     end
 end
 set -x FLYCTL_INSTALL "/home/ota2525/.fly"
-  set -x PATH "$FLYCTL_INSTALL/bin" $PATH
+set -x PATH "$FLYCTL_INSTALL/bin" $PATH
+

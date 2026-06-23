@@ -14,6 +14,9 @@ return {
         prompt_prefix = " ",
         selection_caret = " ",
         path_display = { "truncate" },
+        preview = {
+          treesitter = false,
+        },
         mappings = {
           i = {
             ["<C-j>"] = actions.move_selection_next,

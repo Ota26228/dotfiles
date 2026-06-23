@@ -21,6 +21,18 @@ return {
           vim.keymap.set("n", "<leader>rt", function()
             vim.cmd.RustLsp("testables")
           end, { buffer = bufnr, desc = "Testables" })
+
+          vim.keymap.set("n", "<leader>re", function()
+            vim.cmd.RustLsp("expandMacro")
+          end, { buffer = bufnr, desc = "Expand Macro" })
+
+          vim.keymap.set("n", "<leader>rE", function()
+            vim.cmd.RustLsp("explainError")
+          end, { buffer = bufnr, desc = "Explain Error" })
+
+          vim.keymap.set("n", "<leader>rD", function()
+            vim.cmd.RustLsp("openDocs")
+          end, { buffer = bufnr, desc = "Open Docs (docs.rs)" })
         end,
         default_settings = {
           ["rust-analyzer"] = {

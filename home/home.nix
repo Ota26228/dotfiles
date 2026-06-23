@@ -1,4 +1,4 @@
-{ config, pkgs, lib, inputs, ... }:
+{ config, pkgs, lib, inputs, blupala, zen-browser, ... }:
 
 let
   dotfiles = "/home/ota2525/dotfiles";
@@ -18,7 +18,7 @@ in
   # ── ユーザーアプリ ──────────────────────────────────────────
   home.packages = with pkgs; [
     # bar / launcher / term / notify
-    waybar rofi tofi foot mako swaylock swaybg
+    waybar rofi tofi kitty mako swaylock swaybg waypaper
     # utils
     btop htop brightnessctl grim slurp wl-clipboard
     # editor / files
@@ -32,9 +32,29 @@ in
     # polkit agent（mango autostart で使う場合）
     kdePackages.polkit-kde-agent-1
     # その他デスクトップ
-    xdg-utils wlogout
+    xdg-utils wlogout thunar
+
+    # ── 自作ツール ──
+    blupala
+
+    # ── Claude Code ──
+    claude-code
+
+    # ── 授業用 ──
+    nodejs_22
+
+    # ── neovim プラグインビルド用 ──
+    gcc gnumake cmake
+
+    # ── LSP サーバー（mason の代わりに nixpkgs から）──
+    vscode-langservers-extracted  # eslint-lsp
+    typescript-language-server
+    pyright                       # Python LSP
+    prettier
+    # rust-analyzer は rustup が内包するため不要
 
     # ── CLI ツール ──
+    starship
     bat fd fzf ripgrep jq zoxide fastfetch tree-sitter
     gh pandoc ueberzugpp
     p7zip unzip unar android-tools
@@ -48,7 +68,9 @@ in
     sqlite            # sqlite3 CLI（DB直接操作用）
 
     # ── GUI アプリ ──
-    chromium          # ブラウザは当面 chromium（brave も chromium系で代替可・未確定）
+    zen-browser
+    firefox
+    imv
     vesktop slack spotify zoom-us
     vlc mpv obs-studio rhythmbox kid3
     libreoffice       # office は libreoffice のみ
@@ -68,6 +90,13 @@ in
     nix-direnv.enable = true;
   };
 
+services.udiskie = {
+  enable = true;
+  automount = true;
+  notify = true;
+  tray = "never";  # トレイアイコンを出さない。出したいなら "auto"
+};
+
   # ── 既存 dotfiles をそのまま配置（編集即反映）──────────────
   xdg.configFile = {
     "mango/config.conf".source  = link "mango/config.conf";
@@ -76,13 +105,14 @@ in
     "wlogout/layout".source     = link "wlogout/layout";
     "wlogout/style.css".source  = link "wlogout/style.css";
     "fish/config.fish".source   = link "fish/config.fish";
-    "foot".source               = link "foot";
+    "kitty".source              = link "kitty";
     "mako".source               = link "mako";
     "rofi/config.rasi".source   = link "rofi/config.rasi";
     "starship.toml".source      = link "starship.toml";
     "btop/btop.conf".source     = link "btop.conf";
     "btop/themes".source        = link "btop/themes";   # phoenix-night.theme 同梱
     "nvim".source               = link "nvim";
+    "yazi/yazi.toml".source     = link "yazi/yazi.toml";
   };
 
   # ── 壁紙（~/Wallpapers → repo/wallpapers。厳選分を配置）──────

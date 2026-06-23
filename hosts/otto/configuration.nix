@@ -28,6 +28,21 @@
   # ── Bluetooth ───────────────────────────────────────────────
   hardware.bluetooth.enable = true;
   hardware.bluetooth.powerOnBoot = true;
+  hardware.bluetooth.settings = {
+    General = {
+      JustWorksRepairing = "always";
+      Experimental = true;
+      Privacy = "device";
+    };
+    LE = {
+      MinConnectionInterval = 7;
+      MaxConnectionInterval = 9;
+      ConnectionLatency = 0;
+      ConnectionSupervisionTimeout = 500;
+    };
+  };
+  # ZMKキーボードのBLE接続安定化
+  boot.extraModprobeConfig = "options bluetooth disable_ertm=1";
 
   # ── 日本語入力（fcitx5-mozc）────────────────────────────────
   i18n.inputMethod = {
@@ -40,17 +55,25 @@
   # ── コンポジタ mango（flake の NixOS モジュール）─────────────
   programs.mango.enable = true;
 
-  # ── ログイン（greetd + tuigreet → mango 起動）───────────────
-  services.greetd = {
+  programs.thunar = {
     enable = true;
-    settings.default_session = {
-      command = "${pkgs.tuigreet}/bin/tuigreet --time --asterisks --remember --greeting \"ようこそ otto\" --cmd mango";
-      user = "greeter";
-    };
+    plugins = with pkgs; [
+        thunar-volman
+        thunar-archive-plugin
+    ];
   };
+
+  services.gvfs.enable = true;
+  services.udisks2.enable = true;
+
+
+
+  # ── ログイン（ly）────────────────────────────────────────────
+  services.displayManager.ly.enable = true;
 
   # ── polkit / xdg-portal ─────────────────────────────────────
   security.polkit.enable = true;
+  security.pam.services.swaylock = {};
   xdg.portal = {
     enable = true;
     extraPortals = [ pkgs.xdg-desktop-portal-gtk ];
@@ -81,10 +104,11 @@
   users.users.ota2525 = {
     isNormalUser = true;
     description = "ota2525";
-    extraGroups = [ "wheel" "networkmanager" "video" "audio" "docker" "libvirtd" ];
+    extraGroups = [ "wheel" "networkmanager" "video" "audio" "docker" "libvirtd" "dialout" ];
     shell = pkgs.fish;
     # 初回インストール時に passwd で設定。後で hashedPassword 等に変更可
   };
+
 
   # ── swap（現環境と同じ zram）────────────────────────────────
   zramSwap.enable = true;
@@ -92,8 +116,15 @@
   # ── Nix 設定（flakes 常用）──────────────────────────────────
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
 
+  programs.direnv = {
+    enable = true;
+    nix-direnv.enable = true;
+  };
+
   # unfree アプリ（slack/spotify/zoom/typora/steam 等）を許可
   nixpkgs.config.allowUnfree = true;
+
+  programs.nix-ld.enable = true;
 
   # ── 仮想化 / サービス
   virtualisation.docker.enable = true;
@@ -118,4 +149,6 @@
 
   # 一度決めたら変えない（このマシンの初期NixOSバージョン）
   system.stateVersion = "26.05";
+
+
 }
