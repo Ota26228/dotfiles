@@ -22,7 +22,7 @@ if status is-interactive
     alias paste 'wl-paste'
     alias fishconfig 'nvim ~/.config/fish/config.fish'
     alias vconfig 'nvim ~/.config/nvim/init.lua'
-    alias music music_tui
+    alias mustream='MUSTREAM_SERVER="https://mustream-api.aramarama.net" mustream-tui'
 
     # Starship
     if command -q starship

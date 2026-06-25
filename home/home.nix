@@ -40,6 +40,8 @@ in
     # ── Claude Code ──
     claude-code
 
+    # -- gemini cli --
+    antigravity-cli
     # ── 授業用 ──
     nodejs_22
 
@@ -52,6 +54,10 @@ in
     pyright                       # Python LSP
     prettier
     # rust-analyzer は rustup が内包するため不要
+
+    # ── メディア取得 ──
+    yt-dlp
+    ffmpeg
 
     # ── CLI ツール ──
     starship
