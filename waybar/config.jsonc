@@ -118,7 +118,8 @@
 
     "clock": {
         "format": "<span font_family='Iosevka Nerd Font Mono' font_size='17pt'></span> {:%H:%M}",
-        "tooltip-format": "{:%Y-%m-%d %a}"
+        "tooltip-format": "{:%Y-%m-%d %a}",
+        "on-click": "kitty --class calendar-tui -e /home/ota2525/Projects/calendar-tui/target/release/calendar-tui"
     },
 
     "custom/power": {
