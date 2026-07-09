@@ -70,6 +70,10 @@
 
   # ── ログイン（ly）────────────────────────────────────────────
   services.displayManager.ly.enable = true;
+  services.displayManager.ly.settings = {
+    animate = true;
+    animation = "matrix";
+  };
 
   # ── polkit / xdg-portal ─────────────────────────────────────
   security.polkit.enable = true;

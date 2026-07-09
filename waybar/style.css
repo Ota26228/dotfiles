@@ -1,14 +1,23 @@
+@define-color hacker-green-bright #39ff14;
+@define-color hacker-green-normal #00ff66;
+@define-color hacker-green-dim    #00aa44;
+@define-color hacker-green-dark   #00441b;
+@define-color hacker-green-darker #00220d;
+@define-color hacker-bg           rgba(10, 25, 15, 0.75);
+@define-color hacker-border       rgba(0, 255, 102, 0.3);
+
 * {
-    font-family: "Iosevka Nerd Font Mono";
-    font-size: 15px;
-    min-height: 0;
-    border: none;
-    border-radius: 0;
+  font-family: "Iosevka Nerd Font Mono", monospace;
+  font-size: 15px;
+  min-height: 0;
+  border: none;
+  border-radius: 0;
+  text-shadow: 0 0 2px rgba(0, 255, 102, 0.3);
 }
 
 window#waybar {
-    background: transparent;
-    color: #e1e2eb;
+  background: transparent;
+  color: @hacker-green-normal;
 }
 
 /* ── Island base background ──────────────────────────────────────────── */
@@ -25,75 +34,198 @@ window#waybar {
 #battery,
 #clock,
 #custom-power {
-    background: rgba(17, 19, 26, 0.60);
-    margin-top: 4px;
-    margin-bottom: 4px;
+  background: @hacker-bg;
+  border: 1px solid @hacker-border;
+  box-shadow: 0 0 4px rgba(0, 255, 102, 0.1);
+  margin-top: 4px;
+  margin-bottom: 4px;
 }
 
 /* ── Single-module islands ───────────────────────────────────────────── */
-#tags    { border-radius: 12px; margin-left: 3px; margin-right: 6px; padding: 0 4px; }
-#window  { border-radius: 12px; margin-left: 0;   margin-right: 6px; padding: 0 12px; }
-#network { border-radius: 12px; margin-left: 3px; margin-right: 3px; padding: 0 14px; }
-#custom-power { border-radius: 12px; margin-left: 6px; margin-right: 0; padding: 0 12px; }
+#tags {
+  border-radius: 12px;
+  margin-left: 3px;
+  margin-right: 6px;
+  padding: 0 4px;
+}
+#window {
+  border-radius: 12px;
+  margin-left: 0;
+  margin-right: 6px;
+  padding: 0 12px;
+}
+#network {
+  border-radius: 12px;
+  margin-left: 3px;
+  margin-right: 3px;
+  padding: 0 14px;
+}
+#custom-power {
+  border-radius: 12px;
+  margin-left: 6px;
+  margin-right: 0;
+  padding: 0 12px;
+}
 
 /* ── Tags ────────────────────────────────────────────────────────────── */
 #tags button {
-    padding: 0 4px;
-    color: #2a2d3a;
-    background: transparent;
-    font-size: 13px;
+  padding: 0 4px;
+  color: @hacker-green-dark;
+  background: transparent;
+  font-size: 13px;
 }
 
-#tags button.occupied { color: #767676; }
-#tags button.focused  { color: #adc6ff; }
-#tags button.urgent   { color: #ffb4ab; }
+#tags button.occupied {
+  color: @hacker-green-dim;
+}
+#tags button.focused {
+  color: @hacker-green-bright;
+  text-shadow: 0 0 5px @hacker-green-bright;
+}
+#tags button.urgent {
+  color: @hacker-green-bright;
+  text-decoration: underline;
+  text-shadow: 0 0 5px @hacker-green-bright;
+}
 
-#tags button:nth-child(n+6) {
-    min-width: 0;
-    padding: 0;
-    margin: 0;
-    font-size: 0;
-    border: none;
+#tags button:nth-child(n + 6) {
+  min-width: 0;
+  padding: 0;
+  margin: 0;
+  font-size: 0;
+  border: none;
 }
 
 /* ── Window title ────────────────────────────────────────────────────── */
 #window {
-    color: #9da8c7;
-    font-style: italic;
-    font-size: 14px;
+  color: @hacker-green-dim;
+  font-style: italic;
+  font-size: 14px;
 }
 
 /* ── Media island: mpd | cava ────────────────────────────────────────── */
-#mpd  { border-radius: 12px 0 0 12px; margin-left: 6px; padding: 0 8px; color: #FFA74E; }
-#cava { border-radius: 0 12px 12px 0; margin-right: 3px; padding: 0 8px; color: #adc6ff; }
+#mpd {
+  border-radius: 12px 0 0 12px;
+  margin-left: 6px;
+  padding: 0 8px;
+  color: @hacker-green-normal;
+  border-right: none;
+}
+#cava {
+  border-radius: 0 12px 12px 0;
+  margin-right: 3px;
+  padding: 0 8px;
+  color: @hacker-green-bright;
+  border-left: none;
+}
 
-#mpd.paused       { color: #FFA74E; }
-#mpd.stopped      { color: #FFA74E; }
-#mpd.disconnected { color: #FFA74E; }
+#mpd.paused {
+  color: @hacker-green-dim;
+}
+#mpd.stopped {
+  color: @hacker-green-dark;
+}
+#mpd.disconnected {
+  color: @hacker-green-dark;
+}
 
 /* ── Network ─────────────────────────────────────────────────────────── */
-#network { color: #e1e2eb; }
-#network.disconnected { color: #363940; }
+#network {
+  color: @hacker-green-normal;
+}
+#network.disconnected {
+  color: @hacker-green-dark;
+}
 
 /* ── System: memory / bluetooth（各独立）────────────────────────────── */
-#memory    { border-radius: 12px; margin-left: 3px; margin-right: 3px; padding: 0 8px; color: #e1e2eb; }
-#bluetooth { border-radius: 12px; margin-left: 3px; margin-right: 3px; padding: 0 8px; color: #e1e2eb; }
+#memory {
+  border-radius: 12px;
+  margin-left: 3px;
+  margin-right: 3px;
+  padding: 0 8px;
+  color: @hacker-green-normal;
+}
+#bluetooth {
+  border-radius: 12px;
+  margin-left: 3px;
+  margin-right: 3px;
+  padding: 0 8px;
+  color: @hacker-green-normal;
+}
 
-#memory.warning { color: #ffb4ab; }
+#memory.warning {
+  color: @hacker-green-bright;
+  text-shadow: 0 0 5px @hacker-green-bright;
+}
 
 /* ── Audio island: volume | mic（一体）──────────────────────────────── */
-#pulseaudio            { border-radius: 12px 0 0 12px; margin-left: 3px; margin-right: 0; padding: 0 8px; color: #e1e2eb; }
-#pulseaudio.microphone { border-radius: 0 12px 12px 0; margin-left: 0;  margin-right: 3px; padding: 0 8px; color: #e1e2eb; }
+#pulseaudio {
+  border-radius: 12px 0 0 12px;
+  margin-left: 3px;
+  margin-right: 0;
+  padding: 0 8px;
+  color: @hacker-green-normal;
+  border-right: none;
+}
+#pulseaudio.microphone {
+  border-radius: 0 12px 12px 0;
+  margin-left: 0;
+  margin-right: 3px;
+  padding: 0 8px;
+  color: @hacker-green-normal;
+  border-left: none;
+}
 
 /* ── Status: nix / battery / clock（各独立）─────────────────────────── */
-#custom-update { border-radius: 12px; margin-left: 3px; margin-right: 3px; padding: 0 8px; color: #1793d1; }
-#battery       { border-radius: 12px; margin-left: 3px; margin-right: 3px; padding: 0 8px; color: #e1e2eb; }
-#clock         { border-radius: 12px; margin-left: 3px; margin-right: 3px; padding: 0 8px; color: #e1e2eb; }
+#custom-update {
+  border-radius: 12px;
+  margin-left: 3px;
+  margin-right: 3px;
+  padding: 0 8px;
+  color: @hacker-green-normal;
+}
+#battery {
+  border-radius: 12px;
+  margin-left: 3px;
+  margin-right: 3px;
+  padding: 0 8px;
+  color: @hacker-green-normal;
+}
+#clock {
+  border-radius: 12px;
+  margin-left: 3px;
+  margin-right: 3px;
+  padding: 0 8px;
+  color: @hacker-green-normal;
+}
 
-#custom-update.has-updates { color: #adc6ff; }
-#battery.warning  { color: #ffb4ab; }
-#battery.critical { color: #ffb4ab; font-weight: bold; }
+#custom-update.has-updates {
+  color: @hacker-green-bright;
+  text-shadow: 0 0 5px @hacker-green-bright;
+}
+#battery.warning {
+  color: @hacker-green-bright;
+}
+#battery.critical {
+  color: @hacker-green-bright;
+  font-weight: bold;
+  text-shadow: 0 0 8px @hacker-green-bright;
+  animation: blink 1s infinite alternate;
+}
 
 /* ── Power ───────────────────────────────────────────────────────────── */
-#custom-power { color: #ff5555; }
-#custom-power:hover { color: #ffb4ab; }
+#custom-power {
+  color: @hacker-green-normal;
+}
+#custom-power:hover {
+  color: @hacker-green-bright;
+  text-shadow: 0 0 5px @hacker-green-bright;
+  background: rgba(0, 255, 102, 0.15);
+}
+
+@keyframes blink {
+  to {
+    color: @hacker-green-dark;
+    text-shadow: none;
+  }
+}

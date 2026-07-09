@@ -4,25 +4,28 @@
 }
 
 window {
-    background-color: rgba(17, 19, 26, 0.9);
+    background-color: rgba(5, 15, 8, 0.92);
 }
 
 button {
-    color: #e1e2eb;
-    background-color: #1e2130;
-    border: 1px solid #363940;
-    border-radius: 4px;
-    margin: 8px;
+    color: #00ff66;
+    background-color: #082010;
+    border: 1px solid #00441b;
+    border-radius: 8px;
+    margin: 12px;
     padding: 24px 48px;
-    font-family: "Iosevka Nerd Font Mono";
+    font-family: "Iosevka Nerd Font Mono", monospace;
     font-size: 18px;
-    transition: background-color 0.2s;
+    transition: all 0.2s;
+    text-shadow: 0 0 2px rgba(0, 255, 102, 0.5);
 }
 
 button:hover {
-    background-color: #363940;
-    color: #adc6ff;
-    border-color: #adc6ff;
+    background-color: rgba(0, 255, 102, 0.15);
+    color: #39ff14;
+    border-color: #39ff14;
+    box-shadow: 0 0 10px rgba(0, 255, 102, 0.3);
+    text-shadow: 0 0 5px #39ff14;
 }
 
 #lock    { background-image: none; }

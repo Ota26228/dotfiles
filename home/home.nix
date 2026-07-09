@@ -17,6 +17,7 @@ in
 
   # ── ユーザーアプリ ──────────────────────────────────────────
   home.packages = with pkgs; [
+    airshipper
     # bar / launcher / term / notify
     waybar rofi tofi kitty mako swaylock swaybg waypaper
     # utils
@@ -58,6 +59,7 @@ in
     # ── メディア取得 ──
     yt-dlp
     ffmpeg
+    pavucontrol
 
     # ── CLI ツール ──
     starship

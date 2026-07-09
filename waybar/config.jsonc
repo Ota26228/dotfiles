@@ -41,7 +41,7 @@
         "format-disconnected": "󰝛",
         "max-length": 60,
         "on-click":        "mpc toggle",
-        "on-click-right":  "kitty --class float-term -e rmpc",
+        "on-click-right":  "kitty --class float-term -e /home/ota2525/Projects/mustream-tui/target/release/mustream-tui",
         "on-click-middle": "mpc stop",
         "on-scroll-up":    "mpc next",
         "on-scroll-down":  "mpc prev",

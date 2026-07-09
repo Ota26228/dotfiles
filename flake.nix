@@ -79,6 +79,31 @@
         '';
       };
 
+      mangosw = pkgs.mkShell {
+        packages = with pkgs; [
+          cargo rustc rust-analyzer
+          pkg-config
+          gtk4
+          gtk4-layer-shell
+          glib
+          adwaita-icon-theme
+          hicolor-icon-theme
+        ];
+        buildInputs = with pkgs; [
+          gtk4.dev
+          gtk4-layer-shell
+          glib.dev
+          cairo.dev
+          pango.dev
+          gdk-pixbuf.dev
+        ];
+        XDG_DATA_DIRS = with pkgs; [
+          "${adwaita-icon-theme}/share"
+          "${hicolor-icon-theme}/share"
+        ];
+        RUST_BACKTRACE = "1";
+      };
+
       default = self.devShells.${system}.rust;
     };
   };

@@ -11,11 +11,11 @@ configuration {
 @theme "/dev/null"
 
 * {
-    bg: #1a1b26;
-    bg-alt: #24283b;
-    fg: #c0caf5;
-    fg-alt: #a9b1d6;
-    accent: #7aa2f7;
+    bg: #05150a;
+    bg-alt: #0a2512;
+    fg: #00ff66;
+    fg-alt: #00aa44;
+    accent: #39ff14;
 
     background-color: @bg;
     text-color: @fg;
@@ -85,7 +85,7 @@ element.normal.normal {
 
 element.normal.urgent {
     background-color: @bg;
-    text-color: #f7768e;
+    text-color: @accent;
 }
 
 element.normal.active {
@@ -99,7 +99,7 @@ element.selected.normal {
 }
 
 element.selected.urgent {
-    background-color: #f7768e;
+    background-color: @accent;
     text-color: @bg;
 }
 
